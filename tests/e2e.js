@@ -56,7 +56,8 @@ function check(name, cond, info) {
     if (!o) return { exists: false, visible: false };
     const cs = getComputedStyle(o);
     const r = o.getBoundingClientRect();
-    return { exists: true, visible: cs.display !== 'none' && r.height > 0, rect: { left: r.left, top: r.top, width: r.width, height: r.height }, pe: cs.pointerEvents, cw: o.width, ch: o.height };
+    return { exists: true, visible: cs.display !== 'none' && r.height > 0, rect: { left: r.left, top: r.top, width: r.width, height: r.height }, pe: cs.pointerEvents, cw: o.width, ch: o.height,
+      strip: { top: +o.dataset.stripTop, height: +o.dataset.stripHeight, shift: +o.dataset.shift } };
   });
   const selRect = () => page.evaluate(() => {
     const s = [...document.querySelectorAll('#waffle-grid-container .selection')].map(e => e.getBoundingClientRect()).filter(r => r.height > 0);
@@ -78,9 +79,18 @@ function check(name, cond, info) {
   }
   const waitFrames = () => sleep(400);
   const centred = (o, s) => Math.abs((o.rect.top + o.rect.height / 2) - (s.top + s.bottom) / 2) < 1.5;
+  // Enlarged strip is correct for either mode: push (grows down from row top) or overlay (centred).
+  const stripOk = (o, s, scale) => {
+    if (!o.visible || !s) return false;
+    const rowH = s.bottom - s.top;
+    if (Math.abs(o.strip.height - rowH * scale) > 1.5) return false;
+    return o.strip.shift > 0 ? Math.abs(o.strip.top - s.top) < 1.5
+      : Math.abs(o.strip.top + o.strip.height / 2 - (s.top + s.bottom) / 2) < 1.5;
+  };
 
   // ---------- defaults
-  await setSettings({ enabled: true, scale: 150, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
+  // Overlay mode first (pushRows off); push mode has its own section below.
+  await setSettings({ enabled: true, scale: 150, pushRows: false, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
   await sleep(300);
   check('no overlay before any row selection', !(await overlayInfo()).visible);
 
@@ -233,10 +243,10 @@ function check(name, cond, info) {
 
   // ---------- cell editor visible -> overlay hides (simulated: view-only sheet cannot edit)
   await page.evaluate(() => { const e = document.getElementById('waffle-rich-text-editor'); e.dataset.oldStyle = e.getAttribute('style') || ''; e.style.cssText += ';position:fixed;top:200px;left:100px;width:120px;height:21px;'; });
-  await sleep(300);
+  await sleep(700); // a style-only change outside the grid is caught by the idle refresh (real typing wakes instantly via keydown)
   check('overlay hides while cell editor is on screen', !(await overlayInfo()).visible);
   await page.evaluate(() => { const e = document.getElementById('waffle-rich-text-editor'); e.setAttribute('style', e.dataset.oldStyle); });
-  await sleep(300);
+  await sleep(700);
   check('overlay returns when editor closes', (await overlayInfo()).visible);
 
   // ---------- column selection -> no overlay
@@ -283,6 +293,56 @@ function check(name, cond, info) {
   await sleep(500);
   o = await overlayInfo(); s = await selRect();
   check('scale 100% -> overlay exactly row height', Math.abs(o.rect.height - (s.bottom - s.top)) < 1.5, { oh: o.rect.height });
+
+  // ---------- push mode: neighbouring rows stay visible, rows below move down
+  await setSettings({ enabled: false }); await sleep(300);
+  await clickRowHeader(5); await sleep(300);
+  const s5 = await selRect();
+  const RH = s5.bottom - s5.top;
+  const strip = (top, h) => ({ left: grid.left + 2, top, width: 1100, height: h });
+  const row4Before = await regionColor(strip(s5.top - RH + 2, RH - 4));
+  const row6Before = await regionColor(strip(s5.bottom + 7, RH - 9));
+  const row8Before = await regionColor(strip(s5.bottom + 2 * RH + 2, RH - 4));
+  await setSettings({ enabled: true, pushRows: true, scale: 200, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
+  await sleep(600);
+  o = await overlayInfo(); s = await selRect();
+  const shift = RH * 2 - RH;
+  check('push: enlarged row grows down from its own top (row above untouched)', o.visible && o.strip.shift > 0 && Math.abs(o.strip.top - s.top) < 1.5 && Math.abs(o.strip.height - RH * 2) < 1.5, o.strip);
+  const close = (a, b) => Math.abs(a.r - b.r) < 6 && Math.abs(a.g - b.g) < 6 && Math.abs(a.b - b.b) < 6 && Math.abs(a.darkFrac - b.darkFrac) < 0.02;
+  const row4After = await regionColor(strip(s.top - RH + 2, RH - 4));
+  check('push: row above (4) looks exactly as before', close(row4Before, row4After), { row4Before, row4After });
+  const row6After = await regionColor(strip(s.bottom + shift + 7, RH - 9));
+  check('push: row below (6) fully visible, moved down by the extra height', close(row6Before, row6After), { row6Before, row6After });
+  const row8After = await regionColor(strip(s.bottom + shift + 2 * RH + 2, RH - 4));
+  check('push: rows further down (8) also shifted intact', close(row8Before, row8After), { row8Before, row8After });
+  check('push: overlay extends to bottom of grid', Math.abs(o.rect.top + o.rect.height - (await page.evaluate(() => { const c = document.querySelector('#waffle-grid-container canvas'); return c.getBoundingClientRect().bottom; }))) < 2, o.rect);
+  await page.screenshot({ path: 'e2e_push.png' });
+  // click the (shifted) row 6 header -> selects row 6
+  await page.mouse.click(grid.left + 18, s.bottom + shift + RH / 2);
+  await sleep(500);
+  v = await nameBox();
+  check('push: clicking shifted row 6 header selects row 6', v === '6:6', v);
+  o = await overlayInfo(); s = await selRect();
+  check('push: focus moved to row 6 with room made', stripOk(o, s, 2) && o.strip.shift > 0, o.strip);
+  // click a cell in shifted row 8 (column C at x=300, unscaled in the pushed area)
+  await page.mouse.click(grid.left + 300, s.bottom + shift + RH + RH / 2);
+  await sleep(500);
+  v = await nameBox();
+  check('push: clicking a cell in a shifted row selects that cell (C8)', v === 'C8', v);
+  check('push: overlay reverts after cell click', !(await overlayInfo()).visible);
+  // magnified row still remaps x in push mode
+  await clickRowHeader(5); await waitFrames();
+  s = await selRect();
+  await page.mouse.click(grid.left + 600, s.top + RH);
+  await sleep(500);
+  v = await nameBox();
+  check('push: click on magnified column C selects C5', v === 'C5', v);
+  // switching push off returns to the centred overlay
+  await clickRowHeader(5); await waitFrames();
+  await setSettings({ pushRows: false }); await sleep(500);
+  o = await overlayInfo(); s = await selRect();
+  check('push off: back to centred overlay of strip height', o.strip.shift === 0 && stripOk(o, s, 2) && Math.abs(o.rect.height - RH * 2) < 1.5, o.strip);
+  await setSettings({ scale: 150 }); await sleep(300);
 
   // ---------- disable
   await setSettings({ enabled: false });
@@ -353,13 +413,13 @@ function check(name, cond, info) {
   await popup.click('#reset');
   await sleep(300);
   const reset = await getSettings();
-  check('popup reset restores defaults', reset.enabled === true && reset.scale === 150 && reset.fillEnabled === true && reset.fillColor === '#fff59d', reset);
+  check('popup reset restores defaults', reset.enabled === true && reset.scale === 150 && reset.pushRows === true && reset.fillEnabled === true && reset.fillColor === '#fff59d', reset);
 
   await popup.$eval('#scale', e => { e.value = '250'; e.dispatchEvent(new Event('input')); e.dispatchEvent(new Event('change')); });
   await sleep(600);
   await page.bringToFront(); await sleep(600);
   o = await overlayInfo(); s = await selRect();
-  check('sheet overlay updates from popup change (250%)', o.visible && Math.abs(o.rect.height - (s.bottom - s.top) * 2.5) < 1.5, { oh: o.rect && o.rect.height });
+  check('sheet overlay updates from popup change (250%)', stripOk(o, s, 2.5), { strip: o.strip });
   await page.screenshot({ path: 'e2e_250.png' });
   await popup.close();
 
@@ -381,7 +441,7 @@ function check(name, cond, info) {
   check('after extension reload: no duplicate overlays', nOverlays <= 1, nOverlays);
   v = await clickRowHeader(6); await waitFrames();
   o = await overlayInfo(); s = await selRect();
-  check('after extension reload: open tab works without page refresh', !!sw2 && o.visible && centred(o, s), { v, o: o.rect });
+  check('after extension reload: open tab works without page refresh', !!sw2 && stripOk(o, s, 2.5), { v, strip: o.strip });
   await page.mouse.click(grid.left + 300, grid.top + 300); await sleep(400);
   check('after extension reload: cell click reverts', !(await overlayInfo()).visible);
 

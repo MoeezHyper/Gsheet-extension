@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node tests/e2e.js",
     "test:headful": "cross-env HEADFUL=1 node tests/e2e.js",
+    "perf": "node tests/perf.js",
     "browser:install": "npx puppeteer browsers install chrome"
   },
   "devDependencies": {

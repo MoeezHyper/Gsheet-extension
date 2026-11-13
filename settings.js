@@ -4,6 +4,7 @@
   const DEFAULTS = Object.freeze({
     enabled: true,      // master switch for the whole extension
     scale: 150,         // magnification of the selected row, in percent (100 = no scaling)
+    pushRows: true,     // make room: push the rows below down instead of covering neighbours
     fillEnabled: true,  // tint the selected row with a fill color
     fillColor: "#fff59d",
     fillOpacity: 60     // strength of the fill tint, in percent
@@ -23,6 +24,7 @@
     return {
       enabled: s.enabled !== false,
       scale: Number.isFinite(scale) ? clamp(Math.round(scale), LIMITS.scale.min, LIMITS.scale.max) : DEFAULTS.scale,
+      pushRows: s.pushRows !== false,
       fillEnabled: s.fillEnabled !== false,
       fillColor: /^#[0-9a-f]{6}$/i.test(s.fillColor) ? s.fillColor.toLowerCase() : DEFAULTS.fillColor,
       fillOpacity: Number.isFinite(opacity)

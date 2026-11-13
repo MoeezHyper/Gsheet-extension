@@ -24,7 +24,9 @@
   const Settings = globalThis.RowFocusSettings;
   const SINGLE_ROW_RE = /^\$?(\d+):\$?(\d+)$/;
   const POLL_MS = 100;           // how often the Name Box is checked
-  const REFRESH_MS = 150;        // minimum pixel-refresh rate while a row is focused
+  const REFRESH_MS = 150;        // repaint at least this often while frames are running
+  const BURST_MS = 400;          // keep painting every frame this long after the last movement
+  const IDLE_REFRESH_MS = 500;   // otherwise refresh the copied pixels twice a second
   const SELECTION_SELECTOR = ".selection";
   const GRID_SELECTOR = "#waffle-grid-container";
 
@@ -33,6 +35,10 @@
   let overlay = null;            // our <canvas>
   let ctx = null;
   let rafId = 0;
+  let idleTimer = 0;
+  let burstUntil = 0;
+  let gridObserver = null;
+  let observedGrid = null;
   let lastKey = "";              // geometry/settings signature of the last paint
   let lastPaint = 0;
   let dirty = true;
@@ -72,23 +78,37 @@
     return cs.display !== "none" && cs.visibility !== "hidden" && Number(cs.opacity) !== 0;
   }
 
+  // Overflow-clipping ancestors of `el` (up to `stop`). Sheets' container overflow styles don't
+  // change, so they are cached per element instead of re-reading computed styles every frame.
+  let clipCache = new WeakMap();
+  function clipAncestors(el, stop) {
+    let list = clipCache.get(el);
+    if (list) return list;
+    list = [];
+    for (let p = el.parentElement; p; p = p.parentElement) {
+      const cs = getComputedStyle(p);
+      const x = cs.overflowX !== "visible";
+      const y = cs.overflowY !== "visible";
+      if (x || y) list.push({ p, x, y });
+      if (p === stop) break;
+    }
+    clipCache.set(el, list);
+    return list;
+  }
+
   // The part of `el` actually visible, clipped by every overflow-hiding ancestor up to `stop`.
   function visibleRect(el, stop) {
     let r = rectOf(el);
-    for (let p = el.parentElement; p && r; p = p.parentElement) {
-      const cs = getComputedStyle(p);
-      if (cs.display === "none" || cs.visibility === "hidden") return null;
-      if (cs.overflowX !== "visible" || cs.overflowY !== "visible") {
-        const pr = rectOf(p);
-        const clip = {
-          left: cs.overflowX !== "visible" ? pr.left : -Infinity,
-          right: cs.overflowX !== "visible" ? pr.right : Infinity,
-          top: cs.overflowY !== "visible" ? pr.top : -Infinity,
-          bottom: cs.overflowY !== "visible" ? pr.bottom : Infinity
-        };
-        r = intersect(r, clip);
-      }
-      if (p === stop) break;
+    if (r.width <= 0 && r.height <= 0) return null; // inside a display:none subtree
+    for (const { p, x, y } of clipAncestors(el, stop)) {
+      const pr = rectOf(p);
+      r = intersect(r, {
+        left: x ? pr.left : -Infinity,
+        right: x ? pr.right : Infinity,
+        top: y ? pr.top : -Infinity,
+        bottom: y ? pr.bottom : Infinity
+      });
+      if (!r) return null;
     }
     return r;
   }
@@ -110,9 +130,8 @@
   function selectedRowBand(grid) {
     const fills = [];
     for (const el of grid.querySelectorAll(SELECTION_SELECTOR)) {
-      if (!isRendered(el)) continue;
-      const r = rectOf(el);
-      if (r.height <= 0 || r.width <= 0) continue;
+      const r = rectOf(el); // cheap check first: hidden fills have an empty rect
+      if (r.height <= 0 || r.width <= 0 || !isRendered(el)) continue;
       fills.push({ r, color: getComputedStyle(el).backgroundColor, visible: visibleRect(el, grid) });
     }
     if (!fills.length) return null;
@@ -120,9 +139,8 @@
     // Our own active cell sits inside the selected row; use it to pick our selection color.
     const centers = [];
     for (const el of grid.querySelectorAll(".active-cell-border")) {
-      if (!isRendered(el)) continue;
       const r = rectOf(el);
-      if (r.width > 0 || r.height > 0) centers.push(r);
+      if ((r.width > 0 || r.height > 0) && isRendered(el)) centers.push(r);
     }
     const borderTop = centers.length ? Math.min(...centers.map((r) => r.top)) : NaN;
     const borderBottom = centers.length ? Math.max(...centers.map((r) => r.bottom)) : NaN;
@@ -167,14 +185,41 @@
     if (!canvases.length) return null;
     let left = Infinity;
     let right = -Infinity;
+    let contentBottom = -Infinity; // lowest painted grid pixel (above the horizontal scrollbar)
     for (const c of canvases) {
       const v = visibleRect(c, grid) || rectOf(c);
       left = Math.min(left, v.left);
       right = Math.max(right, v.right);
+      contentBottom = Math.max(contentBottom, v.bottom);
     }
+    contentBottom = Math.min(contentBottom, gridRect.bottom);
     const row = intersect({ left, right, top, bottom }, gridRect);
     if (!row) return null;
-    return { row, gridRect, canvases };
+    return { row, gridRect, canvases, contentBottom };
+  }
+
+  // Copy `src` (viewport CSS px) from every grid canvas onto the overlay, placing its top-left
+  // at (destX, destY) in overlay CSS px and enlarging it by `scale`.
+  function blitGrid(canvases, src, destX, destY, scale, dpr) {
+    const grid = gridContainer();
+    const k = dpr * scale;
+    for (const c of canvases) {
+      const cr = rectOf(c);
+      const part = intersect(src, visibleRect(c, grid) || cr);
+      if (!part) continue;
+      const sx = c.width / cr.width;
+      const sy = c.height / cr.height;
+      try {
+        ctx.drawImage(
+          c,
+          (part.left - cr.left) * sx, (part.top - cr.top) * sy, part.width * sx, part.height * sy,
+          destX * dpr + (part.left - src.left) * k, destY * dpr + (part.top - src.top) * k,
+          part.width * k, part.height * k
+        );
+      } catch (_) {
+        /* canvas mid-resize; next frame will repaint */
+      }
+    }
   }
 
   // ---------------------------------------------------------------- overlay
@@ -195,7 +240,14 @@
   }
 
   function hideOverlay() {
-    if (overlay) overlay.classList.remove("is-visible");
+    if (overlay) {
+      overlay.classList.remove("is-visible");
+      // Release the pixel buffer while hidden (it is reallocated on the next paint).
+      if (overlay.width || overlay.height) {
+        overlay.width = 0;
+        overlay.height = 0;
+      }
+    }
     lastKey = "";
     geom = null;
   }
@@ -214,21 +266,37 @@
       hideOverlay();
       return;
     }
-    const { row, gridRect, canvases } = m;
+    const { row, gridRect, canvases, contentBottom } = m;
     const scale = settings.scale / 100;
     const dpr = window.devicePixelRatio || 1;
 
-    // Enlarged strip: anchored to the left edge of the grid, centred on the row, kept inside the grid.
+    // Enlarged strip, anchored to the left edge of the grid.
     const width = row.width;
-    const height = Math.min(row.height * scale, gridRect.height);
-    let top = row.top + row.height / 2 - height / 2;
-    top = Math.max(gridRect.top, Math.min(top, gridRect.bottom - height));
     const left = row.left;
-    const yOffset = (height - row.height * scale) / 2; // non-zero only when clamped to grid height
-    geom = { left, top, width, height, rowLeft: row.left, rowTop: row.top, rowHeight: row.height, scale, yOffset };
+    const stripH = Math.min(row.height * scale, gridRect.height);
+    const extra = stripH - row.height;
+    let top;
+    let height;
+    let yOffset = 0;  // offset of the enlarged row inside the strip (when clamped to grid height)
+    let shift = 0;    // how far the rows below are pushed down
+    if (settings.pushRows && extra >= 0.5 && row.top + stripH <= contentBottom) {
+      // Make room: the row grows downward from its own top and every row below it is
+      // redrawn shifted down, so neighbouring rows stay fully visible and clickable.
+      top = row.top;
+      height = contentBottom - row.top;
+      shift = extra;
+    } else {
+      // Overlay mode (or no room below): centred on the row, kept inside the grid.
+      height = stripH;
+      top = row.top + row.height / 2 - stripH / 2;
+      top = Math.max(gridRect.top, Math.min(top, gridRect.bottom - stripH));
+      yOffset = (stripH - row.height * scale) / 2;
+    }
+    geom = { left, top, width, height, stripH, shift, yOffset, scale,
+      rowLeft: row.left, rowTop: row.top, rowHeight: row.height };
 
-    const key = [row.left, row.top, row.width, row.height, top, dpr, settings.scale,
-      settings.fillEnabled, settings.fillColor, settings.fillOpacity].join("|");
+    const key = [row.left, row.top, row.width, row.height, top, height, dpr, settings.scale,
+      settings.pushRows, settings.fillEnabled, settings.fillColor, settings.fillOpacity].join("|");
     if (!dirty && key === lastKey && now - lastPaint < REFRESH_MS) return;
     lastKey = key;
     lastPaint = now;
@@ -241,8 +309,14 @@
     overlay.style.width = `${width}px`;
     overlay.style.height = `${height}px`;
     overlay.classList.add("is-visible");
+    overlay.classList.toggle("is-pushing", shift > 0);
+    // Exposed for tests/debugging.
+    overlay.dataset.stripTop = String(top);
+    overlay.dataset.stripHeight = String(stripH);
+    overlay.dataset.shift = String(shift);
     placeOverlay(left, top);
 
+    const stripPx = Math.round(stripH * dpr);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
@@ -251,34 +325,43 @@
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
-    // Copy the row strip from every canvas that intersects it, enlarged by `scale` (in CSS px → device px).
-    const k = dpr * scale;
-    for (const c of canvases) {
-      const cr = rectOf(c);
-      const part = intersect(row, visibleRect(c, gridContainer()) || cr);
-      if (!part) continue;
-      const sx = (c.width / cr.width);
-      const sy = (c.height / cr.height);
-      try {
-        ctx.drawImage(
-          c,
-          (part.left - cr.left) * sx, (part.top - cr.top) * sy, part.width * sx, part.height * sy,
-          (part.left - row.left) * k, (part.top - row.top) * k + yOffset * dpr, part.width * k, part.height * k
-        );
-      } catch (_) {
-        /* canvas mid-resize; next frame will repaint */
+    // 1. The selected row, enlarged.
+    blitGrid(canvases, row, 0, yOffset, scale, dpr);
+
+    // 2. Push mode: the rows below, at normal size, moved down by `shift`.
+    if (shift > 0) {
+      const below = { left: row.left, right: row.right, top: row.bottom, bottom: contentBottom - shift };
+      if (below.bottom > below.top) {
+        below.width = below.right - below.left;
+        below.height = below.bottom - below.top;
+        blitGrid(canvases, below, 0, stripH, 1, dpr);
       }
     }
 
+    // 3. Fill color on the enlarged row only. Multiply keeps text and borders dark while white
+    //    cell backgrounds take the color.
     if (settings.fillEnabled) {
-      // Multiply keeps text and borders dark while white cell backgrounds take the fill color.
       ctx.globalCompositeOperation = "multiply";
       ctx.globalAlpha = settings.fillOpacity / 100;
       ctx.fillStyle = settings.fillColor;
-      ctx.fillRect(0, 0, pxW, pxH);
+      ctx.fillRect(0, 0, pxW, stripPx);
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
     }
+
+    // 4. Outline the enlarged row, plus a soft shadow onto the pushed rows.
+    if (shift > 0) {
+      const sh = Math.round(6 * dpr);
+      const grad = ctx.createLinearGradient(0, stripPx, 0, stripPx + sh);
+      grad.addColorStop(0, "rgba(0, 0, 0, 0.22)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, stripPx, pxW, sh);
+    }
+    const lw = Math.max(1, Math.round(2 * dpr));
+    ctx.strokeStyle = "rgba(32, 33, 36, 0.85)";
+    ctx.lineWidth = lw;
+    ctx.strokeRect(lw / 2, lw / 2, pxW - lw, stripPx - lw);
   }
 
   // position:fixed can be offset by transformed ancestors; measure and correct.
@@ -294,28 +377,64 @@
     }
   }
 
+  // Frame scheduling. Measuring the row forces style/layout reads, so it is not done every
+  // frame forever: after anything that can move the row (scroll, wheel, input, resize, a DOM
+  // change inside the grid) it runs every frame for a short burst, then drops to a slow
+  // refresh that only picks up cell contents changing underneath (e.g. collaborators' edits).
+  const isRunning = () => alive && activeRow !== null && settings.enabled;
+
   function loop(now) {
     rafId = 0;
-    if (!alive || activeRow === null || !settings.enabled) return;
+    if (!isRunning()) return;
     paint(now);
-    rafId = requestAnimationFrame(loop);
+    if (now < burstUntil) {
+      rafId = requestAnimationFrame(loop);
+    } else if (!document.hidden) {
+      idleTimer = setTimeout(() => {
+        idleTimer = 0;
+        if (!rafId && isRunning()) rafId = requestAnimationFrame(loop);
+      }, IDLE_REFRESH_MS);
+    }
   }
 
-  function startLoop() {
+  function wake() {
     dirty = true;
+    burstUntil = performance.now() + BURST_MS;
+    if (!isRunning()) return;
+    if (idleTimer) {
+      clearTimeout(idleTimer);
+      idleTimer = 0;
+    }
     if (!rafId) rafId = requestAnimationFrame(loop);
   }
 
+  const startLoop = wake;
+
   function stopLoop() {
     if (rafId) cancelAnimationFrame(rafId);
+    if (idleTimer) clearTimeout(idleTimer);
     rafId = 0;
+    idleTimer = 0;
+  }
+
+  // Sheets repositions its selection/scroll DOM when the grid moves; treat that as a wake-up.
+  function observeGrid() {
+    const grid = gridContainer();
+    if (!grid || observedGrid === grid) return;
+    if (gridObserver) gridObserver.disconnect();
+    gridObserver = new MutationObserver((records) => {
+      if (records.some((r) => r.target !== overlay)) wake();
+    });
+    gridObserver.observe(grid, { attributes: true, attributeFilter: ["style", "class"], subtree: true });
+    observedGrid = grid;
   }
 
   // ---------------------------------------------------------------- click remapping
   //
-  // The overlay ignores the mouse, but what it shows is enlarged, so a click on the magnified
-  // "column D" would really hit whatever cell lies beneath it. Mouse events landing on the
-  // overlay are therefore re-sent to the cell the user actually sees under the pointer.
+  // The overlay ignores the mouse, but what it shows is enlarged (and, in push mode, the rows
+  // below are moved down), so a click on the magnified "column D" or on a pushed row would
+  // really hit whatever lies beneath it. Mouse events landing on the overlay are therefore
+  // re-sent to the cell the user actually sees under the pointer.
   // A whole gesture (down → move → up → click, and a quick second click for double-click)
   // keeps the mapping it started with, even after the overlay disappears mid-gesture.
 
@@ -334,6 +453,10 @@
   }
 
   function mapPoint(g, x, y) {
+    // Pushed-down rows below the enlarged row: same size, just moved down by `shift`.
+    if (g.shift > 0 && y >= g.top + g.stripH) {
+      return { x: Math.min(g.rowLeft + g.width - 1, Math.max(g.rowLeft, x)), y: y - g.shift };
+    }
     const mx = g.rowLeft + (x - g.left) / g.scale;
     const my = g.rowTop + (y - g.top - g.yOffset) / g.scale;
     return {
@@ -433,12 +556,14 @@
       removeOverlay();
     } else {
       hideOverlay(); // new row: never show the previous row's pixels
+      clipCache = new WeakMap();
+      observeGrid();
       startLoop();
     }
   }
 
   const markDirty = () => {
-    dirty = true;
+    wake();
     // Selection changes from mouse/keyboard: react immediately rather than waiting for the poll.
     queueMicrotask(check);
     setTimeout(check, 0);
@@ -450,6 +575,9 @@
     clearInterval(pollTimer);
     stopLoop();
     removeOverlay();
+    if (gridObserver) gridObserver.disconnect();
+    gridObserver = null;
+    observedGrid = null;
     for (const [type, fn, opts] of listeners) window.removeEventListener(type, fn, opts);
     try {
       chrome.storage.onChanged.removeListener(onStorageChanged);
@@ -462,9 +590,11 @@
   const listeners = [
     ["mouseup", markDirty, true],
     ["keyup", markDirty, true],
-    ["wheel", () => { dirty = true; }, { capture: true, passive: true }],
-    ["scroll", () => { dirty = true; }, { capture: true, passive: true }],
-    ["resize", () => { dirty = true; }, false],
+    ["keydown", wake, true],
+    ["wheel", wake, { capture: true, passive: true }],
+    ["scroll", wake, { capture: true, passive: true }],
+    ["resize", wake, false],
+    ["visibilitychange", wake, true],
     ...REMAPPED_TYPES.map((type) => [type, remap, true]),
     ["pointercancel", resetGesture, true],
     ["dragstart", resetGesture, true],
@@ -476,7 +606,7 @@
 
   function applySettings(next) {
     settings = Settings.sanitize(next);
-    dirty = true;
+    wake();
     if (!settings.enabled) {
       activeRow = null;
       stopLoop();

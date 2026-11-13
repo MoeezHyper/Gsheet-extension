@@ -1,0 +1,301 @@
+Employee ID	Full Name	Email	Department	Job Title	City	Country	Start Date	Salary (USD)	Rating	Projects	Status	Phone	Notes
+EMP-0001	Zara Garcia	zara.garcia32@example.com	Engineering	Senior Engineer	Madrid	Spain	2018-01-31	73000	3.9	34	Active	(555) 704-7912	
+EMP-0002	Ali Davis	ali.davis78@example.com	Finance	Accountant	Manchester	UK	2020-08-31	181000	1.8	34	On Leave	(555) 325-8359	Works night shift
+EMP-0003	Jack Ahmed	jack.ahmed44@example.com	Marketing	SEO Specialist	Madrid	Spain	2019-09-28	77000	1.9	21	Active	(555) 194-7224	
+EMP-0004	Leo Patel	leo.patel6@example.com	Product	Product Analyst	New York	USA	2024-01-19	175000	1.5	24	Active	(555) 665-5803	Speaks 3 languages
+EMP-0005	Yusuf Rossi	yusuf.rossi9@example.com	Product	Product Manager	Manchester	UK	2022-11-25	96000	4.1	5	Contract	(555) 338-2654	Mentor for new hires
+EMP-0006	Jack Tanaka	jack.tanaka46@example.com	Support	Support Agent	London	UK	2019-02-25	106000	3.8	4	Probation	(555) 750-3803	Pending review
+EMP-0007	Hana Johnson	hana.johnson82@example.com	Design	UX Designer	Toronto	Canada	2018-01-10	121000	4.4	3	Active	(555) 941-1525	Relocating next month
+EMP-0008	Maria Mendes	maria.mendes73@example.com	Sales	SDR	Manchester	UK	2025-03-29	118000	1.9	31	On Leave	(555) 758-8517	
+EMP-0009	Ivan Hassan	ivan.hassan69@example.com	Finance	Financial Analyst	Madrid	Spain	2021-04-18	187000	2.7	37	On Leave	(555) 470-4593	
+EMP-0010	Omar Wang	omar.wang15@example.com	Sales	Account Executive	São Paulo	Brazil	2015-07-12	78000	4.2	27	Probation	(555) 165-7304	Mentor for new hires
+EMP-0011	Tom Tanaka	tom.tanaka2@example.com	Legal	Paralegal	New York	USA	2021-03-16	175000	4.0	21	Active	(555) 400-8123	
+EMP-0012	Noah Ahmed	noah.ahmed23@example.com	HR	Recruiter	Dubai	UAE	2023-07-18	114000	4.4	32	Probation	(555) 303-3504	Relocating next month
+EMP-0013	Elena Yilmaz	elena.yilmaz42@example.com	Legal	Counsel	Lahore	Pakistan	2021-09-19	42000	1.4	23	Contract	(555) 926-6038	Top performer this quarter
+EMP-0014	Ana Lopez	ana.lopez94@example.com	Product	Product Analyst	Karachi	Pakistan	2015-12-17	55000	4.9	34	Contract	(555) 228-3103	Speaks 3 languages
+EMP-0015	Nora Johnson	nora.johnson78@example.com	HR	HR Generalist	Dubai	UAE	2024-10-13	92000	4.7	12	Remote	(555) 419-7537	Speaks 3 languages
+EMP-0016	Zoe Rossi	zoe.rossi16@example.com	Design	UX Designer	Dubai	UAE	2020-01-24	95000	1.3	1	Probation	(555) 667-4770	Works night shift
+EMP-0017	Hamza Ahmed	hamza.ahmed8@example.com	Sales	Account Executive	Madrid	Spain	2022-01-28	55000	4.6	21	Active	(555) 626-4899	Needs laptop replacement
+EMP-0018	Oliver Kowalski	oliver.kowalski74@example.com	Legal	Counsel	London	UK	2023-02-10	100000	4.1	26	Active	(555) 196-2588	Speaks 3 languages
+EMP-0019	Maya Patel	maya.patel94@example.com	Operations	Ops Coordinator	Toronto	Canada	2020-03-27	63000	1.2	21	Contract	(555) 982-2790	Top performer this quarter
+EMP-0020	Fatima Kim	fatima.kim55@example.com	Legal	Paralegal	Berlin	Germany	2016-07-28	109000	2.9	4	On Leave	(555) 927-2604	
+EMP-0021	Zoe Yilmaz	zoe.yilmaz97@example.com	Engineering	Senior Engineer	Karachi	Pakistan	2025-05-22	80000	2.6	30	Active	(555) 985-7570	
+EMP-0022	Elena Santos	elena.santos59@example.com	Engineering	QA Analyst	Toronto	Canada	2017-12-22	146000	3.8	35	Remote	(555) 835-8973	
+EMP-0023	Fatima Miller	fatima.miller95@example.com	Finance	Controller	Lahore	Pakistan	2021-06-30	53000	4.0	3	Active	(555) 698-8811	Pending review
+EMP-0024	Priya Johnson	priya.johnson24@example.com	Engineering	Software Engineer	Dubai	UAE	2015-11-25	190000	1.3	15	On Leave	(555) 222-5033	Works night shift
+EMP-0025	Tom Brown	tom.brown85@example.com	Product	Product Analyst	Karachi	Pakistan	2019-09-14	104000	1.8	20	Active	(555) 371-7484	
+EMP-0026	Zoe Nguyen	zoe.nguyen97@example.com	Design	UX Designer	Austin	USA	2025-06-02	40000	2.8	36	Active	(555) 175-9808	Top performer this quarter
+EMP-0027	Omar Martin	omar.martin9@example.com	Marketing	Content Writer	Austin	USA	2024-11-17	132000	2.1	28	Contract	(555) 656-5956	Works night shift
+EMP-0028	Zoe Wilson	zoe.wilson71@example.com	Engineering	QA Analyst	Tokyo	Japan	2024-02-29	64000	4.8	8	Active	(555) 218-2753	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0029	Ravi Ito	ravi.ito27@example.com	HR	HR Generalist	New York	USA	2021-10-13	90000	3.7	16	Probation	(555) 600-5114	
+EMP-0030	Carlos Singh	carlos.singh43@example.com	HR	Recruiter	Lahore	Pakistan	2015-01-15	105000	1.6	28	Probation	(555) 822-8007	Pending review
+EMP-0031	Aisha Garcia	aisha.garcia20@example.com	Sales	SDR	Madrid	Spain	2025-02-19	47000	4.3	37	Probation	(555) 251-8041	
+EMP-0032	Amir Nguyen	amir.nguyen6@example.com	Support	Support Lead	São Paulo	Brazil	2024-08-26	91000	3.7	6	Active	(555) 898-7658	Works night shift
+EMP-0033	Diego Lopez	diego.lopez23@example.com	Marketing	SEO Specialist	São Paulo	Brazil	2024-02-03	44000	1.7	21	Contract	(555) 521-5065	Needs laptop replacement
+EMP-0034	Elena Fischer	elena.fischer61@example.com	Operations	Ops Coordinator	Singapore	Singapore	2015-06-08	89000	4.3	29	Active	(555) 412-4728	Top performer this quarter
+EMP-0035	Ali Kim	ali.kim9@example.com	Operations	Logistics Manager	Austin	USA	2018-02-15	127000	3.6	25	Remote	(555) 963-9785	Relocating next month
+EMP-0036	Ali Garcia	ali.garcia34@example.com	HR	Recruiter	London	UK	2021-07-06	65000	3.4	22	Remote	(555) 905-6139	Mentor for new hires
+EMP-0037	Tom Williams	tom.williams74@example.com	Sales	Account Executive	Toronto	Canada	2025-02-01	103000	1.2	27	Active	(555) 632-9821	Speaks 3 languages
+EMP-0038	Fatima Rossi	fatima.rossi86@example.com	Operations	Logistics Manager	Karachi	Pakistan	2025-08-22	118000	3.7	7	Remote	(555) 407-9308	Needs laptop replacement
+EMP-0039	Mateo Novak	mateo.novak71@example.com	Operations	Ops Coordinator	Madrid	Spain	2018-04-26	87000	2.7	24	Remote	(555) 866-3851	Works night shift
+EMP-0040	Sara Nguyen	sara.nguyen1@example.com	Operations	Logistics Manager	Dubai	UAE	2024-05-07	111000	1.8	37	Probation	(555) 770-6279	Completed certification
+EMP-0041	Mohammed Smith	mohammed.smith95@example.com	Finance	Accountant	Dubai	UAE	2020-04-22	59000	2.1	40	Probation	(555) 443-2530	Top performer this quarter
+EMP-0042	Julia Lee	julia.lee6@example.com	Finance	Accountant	London	UK	2015-04-11	159000	3.4	4	On Leave	(555) 524-4185	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0043	Lucas Wang	lucas.wang84@example.com	Operations	Ops Coordinator	Manchester	UK	2016-08-27	65000	4.1	14	Active	(555) 923-9486	Completed certification
+EMP-0044	Ana Lopez	ana.lopez60@example.com	Sales	SDR	Berlin	Germany	2016-06-30	173000	5.0	38	Active	(555) 873-8251	Works night shift
+EMP-0045	Omar Singh	omar.singh21@example.com	Legal	Counsel	Berlin	Germany	2025-01-22	153000	2.0	15	Contract	(555) 752-5543	Pending review
+EMP-0046	Oliver Lopez	oliver.lopez92@example.com	HR	HR Generalist	Berlin	Germany	2015-11-14	98000	2.1	20	Probation	(555) 182-3267	
+EMP-0047	Hamza Santos	hamza.santos9@example.com	Marketing	SEO Specialist	Madrid	Spain	2017-05-26	142000	2.3	29	On Leave	(555) 163-4388	Mentor for new hires
+EMP-0048	Lucas Anderson	lucas.anderson1@example.com	Product	Product Analyst	Toronto	Canada	2020-05-07	114000	4.0	26	Probation	(555) 865-9947	Works night shift
+EMP-0049	Hamza Wang	hamza.wang63@example.com	Finance	Accountant	New York	USA	2019-11-21	137000	2.3	25	Remote	(555) 269-8657	
+EMP-0050	Yusuf Yilmaz	yusuf.yilmaz73@example.com	Engineering	Software Engineer	Toronto	Canada	2021-08-21	59000	3.6	8	Contract	(555) 572-3977	
+EMP-0051	Ivan Santos	ivan.santos42@example.com	Support	Support Lead	Manchester	UK	2020-02-06	135000	2.1	26	Active	(555) 954-2341	Completed certification
+EMP-0052	Ali Yilmaz	ali.yilmaz84@example.com	Engineering	Software Engineer	Austin	USA	2017-07-07	48000	4.0	15	Active	(555) 959-1333	Works night shift
+EMP-0053	Diego Lopez	diego.lopez15@example.com	Marketing	Marketing Lead	Berlin	Germany	2022-07-05	93000	2.9	16	Contract	(555) 477-3749	Works night shift
+EMP-0054	Tom Garcia	tom.garcia75@example.com	Marketing	Content Writer	New York	USA	2016-03-18	117000	3.3	24	On Leave	(555) 832-4249	
+EMP-0055	Sofia Lopez	sofia.lopez39@example.com	Sales	SDR	Madrid	Spain	2023-08-31	68000	4.2	36	Contract	(555) 142-6688	Pending review
+EMP-0056	Maya Rossi	maya.rossi44@example.com	Sales	Account Executive	Dubai	UAE	2022-04-06	145000	4.3	6	On Leave	(555) 470-8532	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0057	Diego Singh	diego.singh84@example.com	Marketing	SEO Specialist	Madrid	Spain	2020-11-07	175000	4.1	29	On Leave	(555) 945-5397	Relocating next month
+EMP-0058	Hana Davis	hana.davis97@example.com	HR	HR Generalist	Berlin	Germany	2017-09-25	183000	3.4	24	Active	(555) 129-9098	Relocating next month
+EMP-0059	Emma Wang	emma.wang34@example.com	Finance	Financial Analyst	Austin	USA	2023-12-12	109000	4.5	17	Probation	(555) 110-9464	Top performer this quarter
+EMP-0060	Carlos Lopez	carlos.lopez98@example.com	Operations	Ops Coordinator	Berlin	Germany	2021-03-24	159000	3.6	31	On Leave	(555) 911-1282	
+EMP-0061	James Lee	james.lee40@example.com	Operations	Logistics Manager	Madrid	Spain	2017-09-23	159000	3.2	22	On Leave	(555) 863-6419	Relocating next month
+EMP-0062	Noah Mendes	noah.mendes16@example.com	HR	Recruiter	New York	USA	2017-08-02	118000	1.5	34	Contract	(555) 806-4033	Top performer this quarter
+EMP-0063	Grace Taylor	grace.taylor98@example.com	HR	HR Generalist	Madrid	Spain	2021-08-11	63000	4.3	18	Active	(555) 469-3939	Needs laptop replacement
+EMP-0064	Aisha Yilmaz	aisha.yilmaz7@example.com	Marketing	Marketing Lead	New York	USA	2015-07-06	112000	3.8	8	Remote	(555) 989-9042	
+EMP-0065	Aisha Miller	aisha.miller44@example.com	Design	UX Designer	Berlin	Germany	2019-12-10	51000	2.0	30	Active	(555) 941-2070	Mentor for new hires
+EMP-0066	Oliver Costa	oliver.costa7@example.com	Product	Product Manager	Tokyo	Japan	2022-09-12	76000	4.2	19	Active	(555) 354-2940	Pending review
+EMP-0067	Mateo Lee	mateo.lee57@example.com	Legal	Counsel	Toronto	Canada	2020-01-20	188000	5.0	19	Probation	(555) 735-1986	Works night shift
+EMP-0068	Chen Kowalski	chen.kowalski11@example.com	Finance	Accountant	New York	USA	2022-05-29	99000	1.7	4	Active	(555) 102-7693	Completed certification
+EMP-0069	Tom Taylor	tom.taylor37@example.com	HR	HR Generalist	Lahore	Pakistan	2017-08-06	154000	1.3	14	Active	(555) 906-4241	Mentor for new hires
+EMP-0070	Chloe Yilmaz	chloe.yilmaz35@example.com	Finance	Accountant	Tokyo	Japan	2016-09-02	56000	1.2	19	Probation	(555) 866-5728	Completed certification
+EMP-0071	Chloe Tanaka	chloe.tanaka35@example.com	HR	HR Generalist	Madrid	Spain	2019-07-07	150000	1.3	2	On Leave	(555) 852-6280	Works night shift
+EMP-0072	Ivan Anderson	ivan.anderson74@example.com	Sales	SDR	Manchester	UK	2022-07-24	43000	5.0	17	Probation	(555) 141-3870	Completed certification
+EMP-0073	Priya Smith	priya.smith56@example.com	HR	HR Generalist	London	UK	2021-07-25	61000	2.9	26	Active	(555) 428-2713	
+EMP-0074	Layla Silva	layla.silva52@example.com	Design	UX Designer	New York	USA	2022-06-06	154000	1.4	16	Active	(555) 218-7622	Pending review
+EMP-0075	Aisha Yilmaz	aisha.yilmaz25@example.com	Design	Graphic Designer	Toronto	Canada	2015-08-11	165000	3.5	3	Active	(555) 373-9998	
+EMP-0076	James Smith	james.smith81@example.com	Design	UX Designer	Karachi	Pakistan	2015-04-29	78000	2.2	0	Probation	(555) 517-2527	Top performer this quarter
+EMP-0077	Chloe Tanaka	chloe.tanaka20@example.com	Sales	Sales Manager	Tokyo	Japan	2024-05-01	112000	3.0	17	On Leave	(555) 954-8905	Completed certification
+EMP-0078	Hana Tanaka	hana.tanaka25@example.com	Legal	Paralegal	London	UK	2019-04-21	55000	2.1	26	Active	(555) 906-9318	Needs laptop replacement
+EMP-0079	Aisha Miller	aisha.miller75@example.com	HR	HR Generalist	Singapore	Singapore	2021-08-01	76000	2.8	30	Active	(555) 440-9903	Mentor for new hires
+EMP-0080	Noah Novak	noah.novak74@example.com	Finance	Financial Analyst	Madrid	Spain	2017-09-05	97000	4.4	26	Active	(555) 425-8749	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0081	Lucas Santos	lucas.santos17@example.com	Marketing	Marketing Lead	Berlin	Germany	2015-06-01	189000	2.3	6	Contract	(555) 965-8213	
+EMP-0082	Priya Tanaka	priya.tanaka53@example.com	Engineering	Senior Engineer	Madrid	Spain	2016-08-13	57000	2.9	16	Active	(555) 738-7512	Speaks 3 languages
+EMP-0083	Carlos Okafor	carlos.okafor81@example.com	Legal	Counsel	Toronto	Canada	2018-07-21	176000	1.1	4	Active	(555) 746-5708	Top performer this quarter
+EMP-0084	Carlos Singh	carlos.singh91@example.com	Sales	Account Executive	São Paulo	Brazil	2022-02-08	151000	1.7	19	Active	(555) 147-6314	
+EMP-0085	James Patel	james.patel32@example.com	Support	Support Lead	Toronto	Canada	2016-08-19	182000	3.7	11	Active	(555) 279-2293	Works night shift
+EMP-0086	Lucas Lopez	lucas.lopez30@example.com	Design	Graphic Designer	Sydney	Australia	2016-08-09	103000	2.8	0	Contract	(555) 576-5712	Speaks 3 languages
+EMP-0087	Rahul Johnson	rahul.johnson45@example.com	Sales	SDR	Berlin	Germany	2025-08-07	114000	3.6	27	Remote	(555) 356-8484	Needs laptop replacement
+EMP-0088	Fatima Santos	fatima.santos49@example.com	Design	Graphic Designer	Karachi	Pakistan	2017-08-29	185000	2.2	18	Active	(555) 949-7484	Needs laptop replacement
+EMP-0089	Aisha Chen	aisha.chen37@example.com	Product	Product Manager	Madrid	Spain	2020-07-27	128000	1.9	12	Probation	(555) 356-3240	Speaks 3 languages
+EMP-0090	Chen Brown	chen.brown5@example.com	HR	HR Generalist	São Paulo	Brazil	2019-12-11	71000	1.4	18	Active	(555) 865-7807	
+EMP-0091	Fatima Hassan	fatima.hassan65@example.com	Legal	Counsel	Austin	USA	2020-12-14	80000	2.0	30	Contract	(555) 402-6549	
+EMP-0092	Noah Costa	noah.costa87@example.com	Marketing	Marketing Lead	São Paulo	Brazil	2017-07-13	139000	4.9	35	Active	(555) 192-7464	
+EMP-0093	Ivan Yilmaz	ivan.yilmaz87@example.com	Sales	SDR	Berlin	Germany	2019-02-18	105000	3.3	40	Active	(555) 210-4830	Completed certification
+EMP-0094	Ali Novak	ali.novak9@example.com	Product	Product Analyst	Manchester	UK	2022-04-06	115000	3.6	7	Active	(555) 146-1609	Needs laptop replacement
+EMP-0095	Oliver Garcia	oliver.garcia69@example.com	Sales	Account Executive	Manchester	UK	2024-12-13	137000	2.8	34	On Leave	(555) 701-3531	Mentor for new hires
+EMP-0096	Zoe Fischer	zoe.fischer36@example.com	Design	UX Designer	Sydney	Australia	2019-07-30	132000	1.9	28	Active	(555) 975-6942	
+EMP-0097	Lina Yilmaz	lina.yilmaz36@example.com	Support	Support Agent	Lahore	Pakistan	2019-06-19	69000	4.8	29	Active	(555) 778-4475	Speaks 3 languages
+EMP-0098	Zara Anderson	zara.anderson32@example.com	Engineering	Senior Engineer	São Paulo	Brazil	2018-09-28	182000	1.8	35	Active	(555) 700-4538	Top performer this quarter
+EMP-0099	Layla Ito	layla.ito19@example.com	Product	Product Manager	Lahore	Pakistan	2018-02-09	176000	2.0	11	Active	(555) 776-1422	
+EMP-0100	Aisha Patel	aisha.patel3@example.com	Finance	Accountant	Sydney	Australia	2018-08-19	105000	1.2	26	Probation	(555) 216-2041	Completed certification
+EMP-0101	Mohammed Rossi	mohammed.rossi58@example.com	Legal	Paralegal	Sydney	Australia	2016-03-22	49000	3.9	33	Active	(555) 569-1510	
+EMP-0102	Nora Schmidt	nora.schmidt63@example.com	Operations	Logistics Manager	Tokyo	Japan	2016-03-18	56000	4.6	20	Probation	(555) 251-2076	
+EMP-0103	Jack Novak	jack.novak38@example.com	Operations	Logistics Manager	Sydney	Australia	2020-12-13	167000	3.4	6	Contract	(555) 818-2874	Speaks 3 languages
+EMP-0104	Zoe Kowalski	zoe.kowalski30@example.com	Operations	Logistics Manager	Berlin	Germany	2024-12-16	124000	4.3	25	On Leave	(555) 847-2557	Relocating next month
+EMP-0105	Maya Novak	maya.novak88@example.com	HR	HR Generalist	Austin	USA	2016-09-17	55000	1.4	5	Active	(555) 542-2582	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0106	Lina Hassan	lina.hassan72@example.com	Legal	Counsel	Lahore	Pakistan	2021-07-30	69000	2.6	27	Contract	(555) 838-1842	Needs laptop replacement
+EMP-0107	Tom Nguyen	tom.nguyen65@example.com	Support	Support Agent	Karachi	Pakistan	2021-06-25	77000	3.6	14	Contract	(555) 210-6736	Pending review
+EMP-0108	Lina Garcia	lina.garcia55@example.com	HR	Recruiter	Sydney	Australia	2017-07-15	106000	1.1	17	Remote	(555) 880-6062	Relocating next month
+EMP-0109	Leo Ahmed	leo.ahmed73@example.com	Marketing	Marketing Lead	Singapore	Singapore	2016-08-09	140000	1.3	40	Active	(555) 193-9691	Top performer this quarter
+EMP-0110	Lucas Silva	lucas.silva48@example.com	Design	Graphic Designer	Austin	USA	2016-10-06	121000	4.1	36	Probation	(555) 186-1861	
+EMP-0111	Elena Chen	elena.chen85@example.com	Sales	Sales Manager	New York	USA	2019-12-20	162000	3.4	26	Active	(555) 320-9394	
+EMP-0112	Leo Singh	leo.singh87@example.com	Sales	SDR	New York	USA	2022-08-09	162000	3.1	19	Active	(555) 325-7475	Works night shift
+EMP-0113	Ana Ahmed	ana.ahmed28@example.com	Finance	Accountant	New York	USA	2025-08-08	103000	2.2	7	Active	(555) 609-8055	
+EMP-0114	David Santos	david.santos65@example.com	Legal	Counsel	Madrid	Spain	2017-07-31	56000	2.6	2	On Leave	(555) 119-8532	
+EMP-0115	Kenji Singh	kenji.singh82@example.com	Product	Product Analyst	Toronto	Canada	2022-12-16	112000	1.5	1	Active	(555) 275-8538	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0116	Lina Davis	lina.davis32@example.com	Operations	Logistics Manager	Singapore	Singapore	2016-03-09	188000	2.6	5	On Leave	(555) 991-6083	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0117	Layla Lee	layla.lee10@example.com	Support	Support Agent	São Paulo	Brazil	2016-11-19	173000	3.0	22	Active	(555) 844-3419	Top performer this quarter
+EMP-0118	Chen Ito	chen.ito78@example.com	HR	Recruiter	Manchester	UK	2016-12-11	57000	1.7	40	On Leave	(555) 575-8354	Speaks 3 languages
+EMP-0119	Sara Novak	sara.novak9@example.com	Support	Support Lead	London	UK	2019-12-07	151000	3.5	17	Probation	(555) 157-6766	Pending review
+EMP-0120	Ben Nguyen	ben.nguyen8@example.com	Design	Graphic Designer	Berlin	Germany	2015-06-04	111000	1.3	5	Probation	(555) 708-9307	Mentor for new hires
+EMP-0121	Noah Brown	noah.brown84@example.com	Design	UX Designer	São Paulo	Brazil	2021-05-30	120000	3.4	32	Active	(555) 163-8381	
+EMP-0122	Layla Davis	layla.davis6@example.com	Legal	Paralegal	Tokyo	Japan	2016-12-07	150000	5.0	33	Probation	(555) 724-3600	Relocating next month
+EMP-0123	Lina Miller	lina.miller44@example.com	Operations	Ops Coordinator	Toronto	Canada	2023-09-08	123000	1.3	6	Probation	(555) 794-7333	Needs laptop replacement
+EMP-0124	Ivan Ito	ivan.ito85@example.com	Support	Support Agent	Karachi	Pakistan	2021-07-14	127000	2.2	25	Active	(555) 709-2388	Needs laptop replacement
+EMP-0125	Ravi Santos	ravi.santos86@example.com	Support	Support Agent	Singapore	Singapore	2016-06-07	146000	3.0	1	Active	(555) 416-3953	Top performer this quarter
+EMP-0126	Layla Wang	layla.wang20@example.com	Finance	Accountant	Manchester	UK	2016-07-17	113000	4.4	6	Probation	(555) 889-9843	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0127	Priya Brown	priya.brown17@example.com	Support	Support Lead	São Paulo	Brazil	2021-12-06	77000	1.6	39	Contract	(555) 269-8170	
+EMP-0128	Mateo Rossi	mateo.rossi37@example.com	Finance	Controller	Berlin	Germany	2021-11-05	152000	1.9	15	Active	(555) 928-8684	Top performer this quarter
+EMP-0129	Lina Smith	lina.smith49@example.com	Design	Graphic Designer	São Paulo	Brazil	2018-02-28	79000	4.3	38	Active	(555) 993-5096	
+EMP-0130	Zoe Taylor	zoe.taylor14@example.com	Support	Support Agent	Dubai	UAE	2025-06-23	110000	1.3	10	Active	(555) 560-9410	
+EMP-0131	Maya Davis	maya.davis45@example.com	Finance	Accountant	Singapore	Singapore	2020-01-22	144000	1.2	32	Active	(555) 341-7326	
+EMP-0132	Lina Lee	lina.lee13@example.com	Engineering	QA Analyst	Austin	USA	2025-06-09	75000	1.6	18	Contract	(555) 583-3273	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0133	Nora Smith	nora.smith11@example.com	Product	Product Manager	Lahore	Pakistan	2025-02-27	103000	1.9	9	Probation	(555) 844-9647	Mentor for new hires
+EMP-0134	Chloe Miller	chloe.miller7@example.com	Finance	Accountant	New York	USA	2016-05-14	145000	3.6	39	On Leave	(555) 164-2816	Completed certification
+EMP-0135	Tom Yilmaz	tom.yilmaz74@example.com	Engineering	Senior Engineer	Tokyo	Japan	2020-10-11	74000	2.2	0	Probation	(555) 461-4941	Works night shift
+EMP-0136	Mateo Khan	mateo.khan9@example.com	Sales	SDR	Dubai	UAE	2019-01-17	177000	3.0	32	Probation	(555) 120-7397	Completed certification
+EMP-0137	Amir Santos	amir.santos3@example.com	Support	Support Lead	New York	USA	2023-05-20	55000	2.4	40	Active	(555) 890-6447	
+EMP-0138	Amir Patel	amir.patel83@example.com	Legal	Paralegal	Austin	USA	2024-02-15	156000	4.9	30	Remote	(555) 286-3209	
+EMP-0139	Noah Brown	noah.brown26@example.com	HR	Recruiter	Manchester	UK	2015-06-29	118000	4.7	32	On Leave	(555) 934-9897	Completed certification
+EMP-0140	Ivan Brown	ivan.brown7@example.com	Finance	Controller	New York	USA	2019-01-02	122000	2.1	23	On Leave	(555) 509-8204	Mentor for new hires
+EMP-0141	Layla Khan	layla.khan48@example.com	Design	Graphic Designer	Madrid	Spain	2020-07-30	59000	3.9	5	On Leave	(555) 716-3956	Pending review
+EMP-0142	James Novak	james.novak85@example.com	Sales	Sales Manager	Karachi	Pakistan	2018-09-05	116000	2.8	27	Active	(555) 806-8272	Relocating next month
+EMP-0143	Mohammed Brown	mohammed.brown36@example.com	Support	Support Agent	Sydney	Australia	2019-11-17	57000	3.7	25	Active	(555) 625-3621	
+EMP-0144	Diego Smith	diego.smith31@example.com	Engineering	QA Analyst	London	UK	2015-10-03	130000	2.5	36	Active	(555) 719-3513	Speaks 3 languages
+EMP-0145	Mohammed Rossi	mohammed.rossi10@example.com	Support	Support Agent	Berlin	Germany	2023-07-23	173000	2.5	20	Remote	(555) 385-5089	
+EMP-0146	Ali Khan	ali.khan72@example.com	Design	UX Designer	Dubai	UAE	2019-05-05	105000	4.1	28	Active	(555) 726-5678	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0147	Oliver Kim	oliver.kim10@example.com	Sales	Sales Manager	London	UK	2024-07-25	82000	4.6	28	Active	(555) 929-6236	Speaks 3 languages
+EMP-0148	Leo Costa	leo.costa39@example.com	Legal	Paralegal	Dubai	UAE	2018-04-04	82000	4.2	32	Active	(555) 224-4292	
+EMP-0149	Hana Wang	hana.wang74@example.com	Engineering	QA Analyst	Austin	USA	2021-03-19	157000	4.2	35	Active	(555) 726-2412	
+EMP-0150	Julia Schmidt	julia.schmidt99@example.com	Design	Graphic Designer	Dubai	UAE	2019-08-10	185000	1.3	20	Remote	(555) 175-8372	Completed certification
+EMP-0151	Priya Patel	priya.patel71@example.com	Marketing	Marketing Lead	Singapore	Singapore	2023-10-01	188000	1.7	8	On Leave	(555) 614-1907	
+EMP-0152	Priya Ito	priya.ito42@example.com	HR	Recruiter	London	UK	2016-10-25	126000	4.8	33	Active	(555) 966-2292	Needs laptop replacement
+EMP-0153	Fatima Mendes	fatima.mendes79@example.com	Marketing	Marketing Lead	Tokyo	Japan	2018-05-25	61000	3.0	10	Probation	(555) 694-3526	
+EMP-0154	Yusuf Okafor	yusuf.okafor4@example.com	Product	Product Manager	Lahore	Pakistan	2024-04-03	49000	4.8	36	Active	(555) 766-4453	Works night shift
+EMP-0155	Mateo Anderson	mateo.anderson38@example.com	Design	Graphic Designer	Tokyo	Japan	2021-02-12	161000	2.0	25	Active	(555) 564-2195	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0156	Ana Johnson	ana.johnson60@example.com	Design	UX Designer	Toronto	Canada	2020-06-06	125000	3.4	20	Contract	(555) 835-6231	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0157	Leo Schmidt	leo.schmidt66@example.com	Marketing	Marketing Lead	São Paulo	Brazil	2019-02-26	65000	2.3	29	Active	(555) 373-8366	Top performer this quarter
+EMP-0158	Diego Fischer	diego.fischer50@example.com	Engineering	DevOps Engineer	New York	USA	2025-08-08	101000	4.9	10	Contract	(555) 435-6123	Top performer this quarter
+EMP-0159	Elena Wang	elena.wang40@example.com	Legal	Counsel	Berlin	Germany	2020-08-04	43000	1.4	25	Probation	(555) 568-4944	Top performer this quarter
+EMP-0160	Sofia Patel	sofia.patel64@example.com	Engineering	DevOps Engineer	Lahore	Pakistan	2018-02-26	111000	3.1	6	On Leave	(555) 237-5333	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0161	Lina Schmidt	lina.schmidt7@example.com	Support	Support Agent	Lahore	Pakistan	2019-06-29	130000	3.2	4	On Leave	(555) 616-8378	Pending review
+EMP-0162	Jack Garcia	jack.garcia48@example.com	Marketing	SEO Specialist	Karachi	Pakistan	2019-06-02	180000	4.8	9	Active	(555) 716-9341	Mentor for new hires
+EMP-0163	Omar Brown	omar.brown92@example.com	Engineering	QA Analyst	Lahore	Pakistan	2016-07-15	159000	3.1	9	Probation	(555) 627-3290	Relocating next month
+EMP-0164	Yusuf Novak	yusuf.novak95@example.com	Marketing	SEO Specialist	Toronto	Canada	2021-11-30	189000	2.3	32	Probation	(555) 601-5911	Completed certification
+EMP-0165	Ali Rossi	ali.rossi54@example.com	Support	Support Lead	Tokyo	Japan	2016-03-24	44000	3.4	16	Remote	(555) 901-4728	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0166	Ana Taylor	ana.taylor93@example.com	Marketing	Marketing Lead	Dubai	UAE	2022-01-20	135000	1.6	15	Active	(555) 686-2800	Top performer this quarter
+EMP-0167	Ali Smith	ali.smith53@example.com	Support	Support Agent	Toronto	Canada	2016-09-12	143000	3.0	39	On Leave	(555) 993-2020	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0168	David Wilson	david.wilson85@example.com	Finance	Financial Analyst	Dubai	UAE	2018-08-24	172000	2.5	11	On Leave	(555) 645-6608	Pending review
+EMP-0169	Leo Martin	leo.martin32@example.com	Product	Product Analyst	Berlin	Germany	2017-02-26	180000	2.2	19	Contract	(555) 395-4396	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0170	Oliver Novak	oliver.novak93@example.com	Design	Graphic Designer	Austin	USA	2021-04-14	111000	1.5	34	On Leave	(555) 504-6654	
+EMP-0171	James Brown	james.brown45@example.com	HR	HR Generalist	Madrid	Spain	2015-11-20	103000	4.0	13	Active	(555) 947-9824	Needs laptop replacement
+EMP-0172	Ravi Mendes	ravi.mendes95@example.com	Marketing	Marketing Lead	Karachi	Pakistan	2021-11-26	99000	2.0	33	Active	(555) 753-4814	
+EMP-0173	Chen Silva	chen.silva13@example.com	Support	Support Agent	Madrid	Spain	2020-04-18	39000	4.9	10	On Leave	(555) 768-8793	Completed certification
+EMP-0174	Zoe Kim	zoe.kim83@example.com	HR	Recruiter	Austin	USA	2018-03-15	60000	3.6	14	Probation	(555) 856-1611	
+EMP-0175	Mateo Khan	mateo.khan64@example.com	Engineering	Senior Engineer	Singapore	Singapore	2019-06-15	112000	4.5	0	Active	(555) 681-2758	Relocating next month
+EMP-0176	James Tanaka	james.tanaka18@example.com	Legal	Counsel	Dubai	UAE	2020-07-16	107000	1.8	7	Active	(555) 266-8518	Speaks 3 languages
+EMP-0177	Ivan Khan	ivan.khan38@example.com	Engineering	Senior Engineer	Madrid	Spain	2018-10-12	82000	3.4	40	On Leave	(555) 946-8007	Pending review
+EMP-0178	Kenji Davis	kenji.davis24@example.com	Operations	Ops Coordinator	Tokyo	Japan	2016-01-26	160000	2.3	15	Active	(555) 367-7284	Top performer this quarter
+EMP-0179	Mohammed Mendes	mohammed.mendes93@example.com	Support	Support Agent	New York	USA	2021-07-13	104000	3.6	15	Active	(555) 783-2936	Completed certification
+EMP-0180	Julia Johnson	julia.johnson91@example.com	Operations	Logistics Manager	Tokyo	Japan	2020-08-20	68000	3.6	18	Active	(555) 729-4618	Top performer this quarter
+EMP-0181	David Taylor	david.taylor78@example.com	Marketing	SEO Specialist	Berlin	Germany	2023-05-21	144000	3.8	30	Contract	(555) 650-4578	Top performer this quarter
+EMP-0182	Tom Davis	tom.davis91@example.com	Legal	Counsel	Berlin	Germany	2020-12-03	57000	4.7	7	Active	(555) 948-9972	Pending review
+EMP-0183	Fatima Yilmaz	fatima.yilmaz67@example.com	Marketing	SEO Specialist	London	UK	2018-09-05	67000	3.7	37	On Leave	(555) 193-9361	Completed certification
+EMP-0184	Ana Tanaka	ana.tanaka59@example.com	Marketing	Marketing Lead	Dubai	UAE	2019-08-29	52000	3.2	19	Remote	(555) 122-7487	Needs laptop replacement
+EMP-0185	Aisha Kowalski	aisha.kowalski55@example.com	Product	Product Analyst	Karachi	Pakistan	2015-07-05	54000	3.2	3	Active	(555) 583-1519	Needs laptop replacement
+EMP-0186	Mateo Khan	mateo.khan94@example.com	Marketing	Marketing Lead	São Paulo	Brazil	2022-03-12	145000	2.5	24	On Leave	(555) 990-7184	Mentor for new hires
+EMP-0187	Carlos Yilmaz	carlos.yilmaz45@example.com	Marketing	Content Writer	Tokyo	Japan	2024-08-24	83000	5.0	25	Probation	(555) 230-4648	
+EMP-0188	Ali Nguyen	ali.nguyen70@example.com	Design	Graphic Designer	Tokyo	Japan	2023-01-24	174000	2.5	14	Active	(555) 571-6671	
+EMP-0189	Jack Kim	jack.kim85@example.com	Sales	Sales Manager	Lahore	Pakistan	2024-01-29	42000	2.0	4	Active	(555) 708-1550	Completed certification
+EMP-0190	Tom Chen	tom.chen52@example.com	Finance	Financial Analyst	Madrid	Spain	2015-07-01	97000	3.2	3	Active	(555) 615-5739	Top performer this quarter
+EMP-0191	Sara Novak	sara.novak87@example.com	Product	Product Analyst	Sydney	Australia	2023-08-31	98000	2.2	9	Remote	(555) 633-4621	Mentor for new hires
+EMP-0192	Julia Mendes	julia.mendes76@example.com	Engineering	Senior Engineer	Dubai	UAE	2025-08-21	147000	3.2	3	Active	(555) 758-7244	Pending review
+EMP-0193	Kenji Silva	kenji.silva49@example.com	Operations	Ops Coordinator	London	UK	2018-05-13	175000	2.9	14	Active	(555) 978-3365	Completed certification
+EMP-0194	Ana Silva	ana.silva18@example.com	Operations	Logistics Manager	Dubai	UAE	2020-12-10	100000	2.0	21	Remote	(555) 180-8369	Relocating next month
+EMP-0195	Carlos Yilmaz	carlos.yilmaz49@example.com	Finance	Controller	Lahore	Pakistan	2018-01-04	48000	4.5	12	Contract	(555) 879-4555	Completed certification
+EMP-0196	Grace Okafor	grace.okafor25@example.com	HR	Recruiter	Lahore	Pakistan	2017-05-17	160000	4.7	38	Remote	(555) 309-7498	Top performer this quarter
+EMP-0197	Ravi Novak	ravi.novak69@example.com	HR	HR Generalist	Toronto	Canada	2020-03-24	116000	2.0	32	On Leave	(555) 577-2615	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0198	Nora Novak	nora.novak53@example.com	Finance	Accountant	Austin	USA	2018-07-05	182000	4.5	9	Active	(555) 367-7841	Needs laptop replacement
+EMP-0199	Diego Kim	diego.kim73@example.com	Support	Support Agent	Manchester	UK	2019-04-05	165000	3.2	21	Active	(555) 881-9005	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0200	Zoe Wang	zoe.wang46@example.com	Design	UX Designer	London	UK	2023-03-21	73000	3.9	31	Active	(555) 655-1962	Pending review
+EMP-0201	Amir Costa	amir.costa53@example.com	Engineering	Senior Engineer	São Paulo	Brazil	2015-01-27	97000	1.3	9	Active	(555) 323-9285	Completed certification
+EMP-0202	Lina Chen	lina.chen79@example.com	Product	Product Analyst	Tokyo	Japan	2022-06-24	162000	1.1	34	Probation	(555) 521-1194	
+EMP-0203	Priya Mendes	priya.mendes65@example.com	Legal	Counsel	New York	USA	2015-03-12	83000	1.4	6	Probation	(555) 252-4948	Top performer this quarter
+EMP-0204	Yusuf Wilson	yusuf.wilson35@example.com	HR	HR Generalist	Singapore	Singapore	2018-12-22	58000	2.5	25	On Leave	(555) 678-4984	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0205	Hamza Nguyen	hamza.nguyen84@example.com	Sales	Account Executive	Tokyo	Japan	2024-08-16	61000	2.6	24	Probation	(555) 587-1919	Speaks 3 languages
+EMP-0206	Aisha Johnson	aisha.johnson56@example.com	Sales	SDR	Berlin	Germany	2024-06-24	122000	3.3	6	Probation	(555) 143-4764	Top performer this quarter
+EMP-0207	Sara Taylor	sara.taylor10@example.com	HR	HR Generalist	Lahore	Pakistan	2025-05-13	177000	3.3	2	Active	(555) 970-6152	
+EMP-0208	Grace Ito	grace.ito21@example.com	Operations	Ops Coordinator	Karachi	Pakistan	2018-05-10	183000	4.3	24	Remote	(555) 653-6435	Mentor for new hires
+EMP-0209	David Davis	david.davis7@example.com	Legal	Paralegal	Madrid	Spain	2018-11-17	149000	1.9	4	Active	(555) 719-7499	Relocating next month
+EMP-0210	Ali Mendes	ali.mendes46@example.com	Design	Graphic Designer	Berlin	Germany	2017-07-23	148000	1.7	37	Remote	(555) 489-2404	Works night shift
+EMP-0211	James Lopez	james.lopez20@example.com	Sales	Sales Manager	Karachi	Pakistan	2018-01-02	77000	4.0	20	Active	(555) 209-2499	
+EMP-0212	Julia Smith	julia.smith14@example.com	Support	Support Agent	São Paulo	Brazil	2018-01-09	60000	1.7	28	Probation	(555) 668-9395	Mentor for new hires
+EMP-0213	Chen Anderson	chen.anderson12@example.com	Sales	SDR	Austin	USA	2021-03-20	121000	4.5	0	Active	(555) 523-7353	
+EMP-0214	Ravi Lopez	ravi.lopez88@example.com	Product	Product Analyst	Dubai	UAE	2016-11-25	81000	1.6	19	Active	(555) 604-3390	
+EMP-0215	Elena Singh	elena.singh62@example.com	HR	Recruiter	Toronto	Canada	2018-05-12	130000	2.0	15	Remote	(555) 740-9123	Works night shift
+EMP-0216	Yusuf Kim	yusuf.kim39@example.com	Design	UX Designer	Karachi	Pakistan	2016-07-08	139000	2.3	39	On Leave	(555) 923-6399	Completed certification
+EMP-0217	Layla Singh	layla.singh42@example.com	Product	Product Manager	London	UK	2018-05-15	160000	2.3	25	Active	(555) 398-9044	Works night shift
+EMP-0218	Hana Novak	hana.novak51@example.com	Operations	Logistics Manager	New York	USA	2024-02-27	67000	4.7	12	Probation	(555) 658-3947	Speaks 3 languages
+EMP-0219	Ravi Anderson	ravi.anderson57@example.com	Design	Graphic Designer	Madrid	Spain	2017-05-08	55000	4.3	26	Remote	(555) 611-3280	Speaks 3 languages
+EMP-0220	Julia Lopez	julia.lopez92@example.com	HR	HR Generalist	Tokyo	Japan	2016-09-23	134000	1.3	38	On Leave	(555) 696-7566	Pending review
+EMP-0221	Omar Silva	omar.silva47@example.com	Legal	Paralegal	Lahore	Pakistan	2023-11-13	65000	4.1	22	Active	(555) 762-1725	Works night shift
+EMP-0222	Zoe Schmidt	zoe.schmidt14@example.com	Support	Support Agent	São Paulo	Brazil	2019-10-30	63000	2.0	32	Remote	(555) 631-4621	Completed certification
+EMP-0223	Lina Schmidt	lina.schmidt76@example.com	Design	UX Designer	São Paulo	Brazil	2022-08-15	126000	5.0	30	Active	(555) 402-7815	
+EMP-0224	Chloe Ito	chloe.ito59@example.com	Support	Support Agent	New York	USA	2018-11-06	171000	2.9	30	Active	(555) 548-8412	Relocating next month
+EMP-0225	Ben Nguyen	ben.nguyen15@example.com	Engineering	Software Engineer	São Paulo	Brazil	2022-12-21	125000	3.6	10	Remote	(555) 349-9454	
+EMP-0226	Ravi Johnson	ravi.johnson60@example.com	Support	Support Agent	Dubai	UAE	2019-10-13	141000	3.5	11	Remote	(555) 773-8080	Mentor for new hires
+EMP-0227	Ali Kim	ali.kim50@example.com	Design	UX Designer	Sydney	Australia	2019-10-26	92000	1.8	4	Probation	(555) 204-9796	
+EMP-0228	Lina Novak	lina.novak34@example.com	Finance	Controller	Berlin	Germany	2016-04-11	163000	3.1	40	Active	(555) 711-7367	Works night shift
+EMP-0229	Maria Garcia	maria.garcia59@example.com	Support	Support Agent	Austin	USA	2024-06-25	114000	4.7	37	Active	(555) 788-3194	Relocating next month
+EMP-0230	Chloe Lopez	chloe.lopez48@example.com	HR	Recruiter	Karachi	Pakistan	2017-01-19	168000	2.6	38	Active	(555) 688-7286	Mentor for new hires
+EMP-0231	Emma Wang	emma.wang83@example.com	Legal	Paralegal	Madrid	Spain	2025-04-22	180000	1.7	18	Active	(555) 291-6154	Completed certification
+EMP-0232	Yusuf Chen	yusuf.chen18@example.com	Support	Support Agent	Lahore	Pakistan	2020-06-07	136000	4.9	32	Remote	(555) 606-7703	Speaks 3 languages
+EMP-0233	Oliver Silva	oliver.silva11@example.com	Design	UX Designer	Berlin	Germany	2016-11-16	94000	2.2	17	Active	(555) 650-5729	
+EMP-0234	Noah Wang	noah.wang74@example.com	Legal	Paralegal	Dubai	UAE	2016-04-08	106000	4.1	23	Probation	(555) 942-1681	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0235	Mohammed Yilmaz	mohammed.yilmaz95@example.com	Finance	Controller	Toronto	Canada	2016-02-24	101000	2.2	2	On Leave	(555) 369-6711	
+EMP-0236	Mohammed Garcia	mohammed.garcia95@example.com	Finance	Controller	Manchester	UK	2024-02-03	127000	4.4	39	Remote	(555) 538-3719	Works night shift
+EMP-0237	David Kowalski	david.kowalski73@example.com	Finance	Financial Analyst	São Paulo	Brazil	2015-09-01	174000	2.1	34	Active	(555) 431-5794	Needs laptop replacement
+EMP-0238	Sara Mendes	sara.mendes13@example.com	Legal	Paralegal	Tokyo	Japan	2024-02-21	143000	4.7	17	Contract	(555) 771-3078	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0239	David Lopez	david.lopez32@example.com	Marketing	Marketing Lead	Madrid	Spain	2018-08-12	138000	3.0	36	Remote	(555) 375-7786	Mentor for new hires
+EMP-0240	Mohammed Costa	mohammed.costa96@example.com	Sales	Sales Manager	Toronto	Canada	2020-10-12	132000	2.8	31	Active	(555) 695-1040	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0241	Carlos Tanaka	carlos.tanaka69@example.com	Support	Support Lead	Singapore	Singapore	2015-09-17	93000	4.9	13	On Leave	(555) 374-6289	Needs laptop replacement
+EMP-0242	Layla Hassan	layla.hassan44@example.com	Product	Product Manager	Singapore	Singapore	2020-06-10	49000	1.4	29	Active	(555) 227-3588	Completed certification
+EMP-0243	Noah Ahmed	noah.ahmed17@example.com	Operations	Logistics Manager	Manchester	UK	2022-09-21	78000	4.5	17	Active	(555) 770-6905	Needs laptop replacement
+EMP-0244	Carlos Rossi	carlos.rossi81@example.com	Marketing	SEO Specialist	Lahore	Pakistan	2019-06-12	97000	2.7	5	Remote	(555) 197-1017	Top performer this quarter
+EMP-0245	Nora Costa	nora.costa67@example.com	Marketing	Marketing Lead	Sydney	Australia	2017-07-15	151000	1.0	21	Contract	(555) 223-7919	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0246	David Taylor	david.taylor12@example.com	Sales	SDR	Manchester	UK	2019-04-19	64000	1.4	23	Active	(555) 240-7270	
+EMP-0247	Zoe Ito	zoe.ito2@example.com	Sales	SDR	Dubai	UAE	2021-04-26	80000	2.8	13	Remote	(555) 866-3480	Mentor for new hires
+EMP-0248	Yusuf Smith	yusuf.smith13@example.com	Finance	Accountant	Karachi	Pakistan	2025-01-20	69000	3.4	24	Active	(555) 539-6152	
+EMP-0249	Hana Mendes	hana.mendes77@example.com	Sales	SDR	Manchester	UK	2021-03-16	110000	4.1	1	Contract	(555) 967-5942	Top performer this quarter
+EMP-0250	Priya Williams	priya.williams38@example.com	Finance	Controller	Madrid	Spain	2019-05-24	51000	4.1	15	On Leave	(555) 495-2847	Top performer this quarter
+EMP-0251	Oliver Costa	oliver.costa41@example.com	Legal	Paralegal	Lahore	Pakistan	2019-01-19	137000	4.4	36	On Leave	(555) 474-9951	Speaks 3 languages
+EMP-0252	Emma Taylor	emma.taylor9@example.com	Sales	Account Executive	Lahore	Pakistan	2021-08-02	105000	1.9	3	Contract	(555) 507-9300	Needs laptop replacement
+EMP-0253	Zara Williams	zara.williams52@example.com	Operations	Ops Coordinator	Toronto	Canada	2022-11-14	175000	3.2	9	Active	(555) 185-6077	
+EMP-0254	Omar Kowalski	omar.kowalski51@example.com	Marketing	Marketing Lead	Dubai	UAE	2018-08-31	54000	2.2	27	Remote	(555) 966-4909	
+EMP-0255	Hana Davis	hana.davis79@example.com	Operations	Ops Coordinator	Karachi	Pakistan	2020-02-01	117000	3.7	11	Active	(555) 112-3248	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0256	Aisha Johnson	aisha.johnson67@example.com	Design	Graphic Designer	Austin	USA	2020-11-12	80000	2.5	17	Remote	(555) 220-1480	Relocating next month
+EMP-0257	Maya Mendes	maya.mendes92@example.com	Legal	Paralegal	Karachi	Pakistan	2017-12-13	165000	2.8	23	Active	(555) 611-3734	Relocating next month
+EMP-0258	Elena Martin	elena.martin93@example.com	Sales	Account Executive	Sydney	Australia	2022-07-24	96000	4.0	0	Active	(555) 979-1201	Top performer this quarter
+EMP-0259	Amir Taylor	amir.taylor20@example.com	Support	Support Agent	Toronto	Canada	2025-04-27	47000	3.2	26	Active	(555) 429-5067	Mentor for new hires
+EMP-0260	Kenji Mendes	kenji.mendes16@example.com	Sales	SDR	Sydney	Australia	2019-03-08	51000	1.7	33	Active	(555) 510-2129	Completed certification
+EMP-0261	James Nguyen	james.nguyen59@example.com	Support	Support Agent	Karachi	Pakistan	2021-03-15	132000	1.8	36	Contract	(555) 411-4974	Completed certification
+EMP-0262	Lina Wang	lina.wang70@example.com	Finance	Accountant	Madrid	Spain	2025-02-05	76000	1.0	26	Active	(555) 338-9872	Relocating next month
+EMP-0263	Zara Ahmed	zara.ahmed85@example.com	Support	Support Lead	Lahore	Pakistan	2023-07-06	116000	1.4	33	Active	(555) 529-9061	
+EMP-0264	Diego Mendes	diego.mendes30@example.com	Sales	SDR	Lahore	Pakistan	2025-05-01	143000	3.8	23	On Leave	(555) 865-2391	Works night shift
+EMP-0265	Chen Williams	chen.williams51@example.com	Marketing	Content Writer	Tokyo	Japan	2024-03-12	189000	3.3	27	Remote	(555) 233-4879	Needs laptop replacement
+EMP-0266	Ivan Novak	ivan.novak95@example.com	Operations	Logistics Manager	Madrid	Spain	2024-04-30	119000	2.8	14	Active	(555) 307-3230	Works night shift
+EMP-0267	Chen Ito	chen.ito60@example.com	Sales	Sales Manager	London	UK	2020-01-16	142000	1.5	22	Contract	(555) 312-8404	Needs laptop replacement
+EMP-0268	Noah Martin	noah.martin88@example.com	Sales	Sales Manager	Karachi	Pakistan	2016-10-07	48000	1.9	20	Active	(555) 193-5066	Relocating next month
+EMP-0269	Maria Williams	maria.williams34@example.com	Engineering	Senior Engineer	Tokyo	Japan	2018-05-09	45000	4.8	28	Probation	(555) 866-5093	
+EMP-0270	Noah Fischer	noah.fischer8@example.com	Marketing	Content Writer	Karachi	Pakistan	2015-02-18	71000	1.8	25	Active	(555) 802-2376	Works night shift
+EMP-0271	Sofia Martin	sofia.martin26@example.com	Sales	SDR	Lahore	Pakistan	2015-09-22	151000	4.2	5	Contract	(555) 949-6432	
+EMP-0272	Amir Tanaka	amir.tanaka74@example.com	Engineering	DevOps Engineer	London	UK	2025-05-13	139000	3.0	24	Remote	(555) 536-3831	Relocating next month
+EMP-0273	Grace Khan	grace.khan20@example.com	HR	Recruiter	New York	USA	2020-01-01	100000	3.6	31	On Leave	(555) 663-8848	
+EMP-0274	Carlos Mendes	carlos.mendes26@example.com	Operations	Ops Coordinator	London	UK	2019-09-14	177000	4.2	24	Contract	(555) 830-6883	Completed certification
+EMP-0275	Rahul Wang	rahul.wang42@example.com	Support	Support Lead	Sydney	Australia	2020-08-19	107000	1.7	20	Probation	(555) 324-1480	Needs laptop replacement
+EMP-0276	Ana Taylor	ana.taylor75@example.com	Legal	Paralegal	Austin	USA	2023-08-07	78000	1.4	15	Active	(555) 646-1916	Top performer this quarter
+EMP-0277	Sara Santos	sara.santos23@example.com	Support	Support Agent	Singapore	Singapore	2024-06-24	98000	3.4	22	Probation	(555) 128-6761	Works night shift
+EMP-0278	Sara Ito	sara.ito64@example.com	Product	Product Analyst	Manchester	UK	2024-05-20	82000	3.0	5	Active	(555) 338-4584	
+EMP-0279	Priya Taylor	priya.taylor79@example.com	Engineering	Senior Engineer	Austin	USA	2025-04-17	71000	2.4	11	Contract	(555) 964-6301	
+EMP-0280	Ali Ito	ali.ito19@example.com	Product	Product Manager	Madrid	Spain	2025-04-14	172000	4.4	4	Active	(555) 821-7481	Works night shift
+EMP-0281	Chen Okafor	chen.okafor21@example.com	HR	HR Generalist	Austin	USA	2016-07-12	162000	3.6	11	Remote	(555) 675-6846	Top performer this quarter
+EMP-0282	Sofia Khan	sofia.khan89@example.com	Operations	Logistics Manager	New York	USA	2023-03-26	70000	1.7	0	Remote	(555) 686-7415	Works night shift
+EMP-0283	Amir Khan	amir.khan79@example.com	Product	Product Manager	Austin	USA	2025-04-30	182000	1.4	31	Active	(555) 439-2274	Top performer this quarter
+EMP-0284	Leo Novak	leo.novak12@example.com	Marketing	Marketing Lead	Tokyo	Japan	2024-12-05	123000	2.8	16	Active	(555) 355-2110	Relocating next month
+EMP-0285	Ivan Fischer	ivan.fischer57@example.com	Engineering	DevOps Engineer	Lahore	Pakistan	2019-04-30	80000	4.5	31	On Leave	(555) 459-9946	Mentor for new hires
+EMP-0286	Chen Taylor	chen.taylor88@example.com	Product	Product Manager	Tokyo	Japan	2023-07-03	79000	2.8	2	Active	(555) 120-6221	Needs laptop replacement
+EMP-0287	Chen Costa	chen.costa49@example.com	Support	Support Agent	London	UK	2024-12-15	57000	3.2	5	Active	(555) 708-8909	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0288	Ali Singh	ali.singh56@example.com	Marketing	Content Writer	Sydney	Australia	2024-12-23	51000	1.4	13	Active	(555) 519-9849	Needs laptop replacement
+EMP-0289	James Nguyen	james.nguyen51@example.com	Finance	Controller	Karachi	Pakistan	2015-07-23	178000	4.4	9	Active	(555) 469-1062	Mentor for new hires
+EMP-0290	Carlos Miller	carlos.miller13@example.com	Product	Product Manager	Berlin	Germany	2017-03-28	90000	1.7	18	Active	(555) 584-2892	Needs laptop replacement
+EMP-0291	Maria Taylor	maria.taylor12@example.com	Design	Graphic Designer	Tokyo	Japan	2017-12-21	85000	2.5	24	Active	(555) 291-8303	
+EMP-0292	Ivan Smith	ivan.smith35@example.com	Design	UX Designer	New York	USA	2017-07-15	76000	4.0	6	Active	(555) 784-6632	Pending review
+EMP-0293	Mateo Lee	mateo.lee50@example.com	Legal	Counsel	Lahore	Pakistan	2024-06-05	175000	3.7	30	Probation	(555) 341-8803	Needs laptop replacement
+EMP-0294	Carlos Schmidt	carlos.schmidt67@example.com	Engineering	Senior Engineer	Dubai	UAE	2021-05-28	68000	4.8	28	Active	(555) 271-4471	Top performer this quarter
+EMP-0295	David Brown	david.brown56@example.com	Operations	Ops Coordinator	Karachi	Pakistan	2022-08-30	75000	4.3	16	Active	(555) 844-2097	
+EMP-0296	Lucas Schmidt	lucas.schmidt36@example.com	Legal	Counsel	Austin	USA	2024-08-09	41000	4.1	39	Probation	(555) 635-7874	
+EMP-0297	Mateo Ito	mateo.ito75@example.com	Marketing	Content Writer	Sydney	Australia	2021-08-05	65000	3.3	6	Contract	(555) 392-9775	Relocating next month
+EMP-0298	Mateo Martin	mateo.martin74@example.com	Operations	Logistics Manager	Tokyo	Japan	2020-06-11	47000	1.7	25	Active	(555) 733-7581	
+EMP-0299	Maria Okafor	maria.okafor61@example.com	Finance	Financial Analyst	Lahore	Pakistan	2023-05-13	133000	1.1	19	Active	(555) 387-9054	Team lead candidate, follow up in Q3 about promotion and salary band adjustment
+EMP-0300	Chen Lee	chen.lee57@example.com	Marketing	SEO Specialist	New York	USA	2023-05-05	106000	3.9	38	Remote	(555) 191-4079	Completed certification

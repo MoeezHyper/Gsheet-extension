@@ -7,6 +7,7 @@
     options: $("options"),
     scale: $("scale"),
     scaleValue: $("scaleValue"),
+    pushRows: $("pushRows"),
     fillEnabled: $("fillEnabled"),
     fillOptions: $("fillOptions"),
     fillColor: $("fillColor"),
@@ -21,6 +22,7 @@
     els.options.disabled = !s.enabled;
     els.scale.value = s.scale;
     els.scaleValue.textContent = `${s.scale}%`;
+    els.pushRows.checked = s.pushRows;
     els.fillEnabled.checked = s.fillEnabled;
     els.fillOptions.classList.toggle("off", !s.fillEnabled);
     els.fillColor.value = s.fillColor;
@@ -59,6 +61,7 @@
 
   els.enabled.addEventListener("change", () => update({ enabled: els.enabled.checked }));
   els.fillEnabled.addEventListener("change", () => update({ fillEnabled: els.fillEnabled.checked }));
+  els.pushRows.addEventListener("change", () => update({ pushRows: els.pushRows.checked }));
 
   throttledSave("scale", els.scale, (v) => (els.scaleValue.textContent = `${v}%`));
   throttledSave("fillOpacity", els.fillOpacity, (v) => (els.fillOpacityValue.textContent = `${v}%`));
