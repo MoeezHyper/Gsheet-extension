@@ -9,6 +9,7 @@
   <header>
     <img src="icons/icon32.png" alt="" width="20" height="20">
     <h1>Sheets Row Focus</h1>
+    <small id="version" class="version"></small>
   </header>
 
   <main>
@@ -24,7 +25,7 @@
       <section>
         <div class="row">
           <label for="scale"><strong>Row scale</strong></label>
-          <output id="scaleValue" for="scale">150%</output>
+          <output id="scaleValue" for="scale">120%</output>
         </div>
         <input type="range" id="scale" min="100" max="300" step="10" aria-describedby="scaleHelp">
         <small id="scaleHelp">100% shows the row at normal size.</small>
@@ -35,6 +36,27 @@
           </span>
           <input type="checkbox" id="pushRows" role="switch">
         </label>
+        <label class="row switch-row">
+          <span>
+            <strong>Keep columns aligned</strong>
+            <small>Enlarge each cell inside its own column</small>
+          </span>
+          <input type="checkbox" id="alignColumns" role="switch">
+        </label>
+      </section>
+
+      <section>
+        <label class="row switch-row">
+          <span>
+            <strong>Show header row</strong>
+            <small>Column titles above the focused row</small>
+          </span>
+          <input type="checkbox" id="showHeader" role="switch">
+        </label>
+        <div id="headerOptions" class="row">
+          <label for="headerRow">Header is row</label>
+          <input type="number" id="headerRow" min="1" max="100000" step="1" inputmode="numeric">
+        </div>
       </section>
 
       <section>

@@ -46,6 +46,15 @@ function check(name, cond, info) {
       const v = await nameBox();
       const m = /^(\d+):(\d+)$/.exec(v);
       if (m && Number(m[1]) === n && Number(m[2]) === n) return v;
+      // A magnified neighbouring row may now cover this header (clicks on it are remapped,
+      // by design), so fall back to selecting the row through the Name Box.
+      if (m && i >= 1) {
+        await page.click('#t-name-box', { clickCount: 3 });
+        await page.keyboard.type(`${n}:${n}`);
+        await page.keyboard.press('Enter');
+        await sleep(400);
+        return nameBox();
+      }
       if (!m) { y += 10; continue; }
       y += (n - Number(m[1])) * 21;
     }
@@ -57,7 +66,9 @@ function check(name, cond, info) {
     const cs = getComputedStyle(o);
     const r = o.getBoundingClientRect();
     return { exists: true, visible: cs.display !== 'none' && r.height > 0, rect: { left: r.left, top: r.top, width: r.width, height: r.height }, pe: cs.pointerEvents, cw: o.width, ch: o.height,
-      strip: { top: +o.dataset.stripTop, height: +o.dataset.stripHeight, shift: +o.dataset.shift } };
+      strip: { top: +o.dataset.stripTop, height: +o.dataset.stripHeight, shift: +o.dataset.shift,
+        header: +o.dataset.headerHeight || 0, aligned: o.dataset.aligned === 'true', pad: +o.dataset.pad || 0,
+        sharp: +o.dataset.sharpText || 0, sharpHeader: +o.dataset.sharpHeader || 0 } };
   });
   const selRect = () => page.evaluate(() => {
     const s = [...document.querySelectorAll('#waffle-grid-container .selection')].map(e => e.getBoundingClientRect()).filter(r => r.height > 0);
@@ -77,20 +88,35 @@ function check(name, cond, info) {
       return { r: Math.round(r / n), g: Math.round(g / n), b: Math.round(b / n), darkFrac: +(dark / n).toFixed(4) };
     }, b64);
   }
+  // Text crispness of a screen region: share of text pixels that are solid ink rather than
+  // blurry grey fringe (stretched pixels are mostly fringe).
+  async function crispness(rect) {
+    const b64 = await page.screenshot({ encoding: 'base64', clip: { x: rect.left, y: rect.top, width: rect.width, height: rect.height } });
+    return page.evaluate(async (b64) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const x = c.getContext('2d'); x.drawImage(img, 0, 0);
+      const d = x.getImageData(0, 0, c.width, c.height).data;
+      let ink = 0, solid = 0;
+      for (let i = 0; i < d.length; i += 4) { const l = (d[i] + d[i + 1] + d[i + 2]) / 3; if (l < 200) { ink++; if (l < 90) solid++; } }
+      return { ink, solid: +(solid / Math.max(1, ink)).toFixed(3) };
+    }, b64);
+  }
   const waitFrames = () => sleep(400);
+  const close = (a, b) => Math.abs(a.r - b.r) < 6 && Math.abs(a.g - b.g) < 6 && Math.abs(a.b - b.b) < 6 && Math.abs(a.darkFrac - b.darkFrac) < 0.02;
   const centred = (o, s) => Math.abs((o.rect.top + o.rect.height / 2) - (s.top + s.bottom) / 2) < 1.5;
   // Enlarged strip is correct for either mode: push (grows down from row top) or overlay (centred).
   const stripOk = (o, s, scale) => {
     if (!o.visible || !s) return false;
     const rowH = s.bottom - s.top;
-    if (Math.abs(o.strip.height - rowH * scale) > 1.5) return false;
-    return o.strip.shift > 0 ? Math.abs(o.strip.top - s.top) < 1.5
+    if (Math.abs(o.strip.height - 2 * o.strip.pad - rowH * scale) > 1.5) return false;
+    return o.strip.shift > 0 ? Math.abs(o.strip.top - o.strip.header - s.top) < 1.5
       : Math.abs(o.strip.top + o.strip.height / 2 - (s.top + s.bottom) / 2) < 1.5;
   };
 
   // ---------- defaults
   // Overlay mode first (pushRows off); push mode has its own section below.
-  await setSettings({ enabled: true, scale: 150, pushRows: false, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
+  await setSettings({ enabled: true, scale: 150, pushRows: false, alignColumns: false, showHeader: false, headerRow: 1, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
   await sleep(300);
   check('no overlay before any row selection', !(await overlayInfo()).visible);
 
@@ -102,7 +128,7 @@ function check(name, cond, info) {
   check('overlay visible for single row', o.visible, o);
   check('overlay ignores pointer events', o.pe === 'none', o.pe);
   const rowH = s.bottom - s.top;
-  check('overlay height = row height x 1.5', Math.abs(o.rect.height - rowH * 1.5) < 1.5, { oh: o.rect.height, rowH });
+  check('overlay height = row height x 1.5 + padding', Math.abs(o.rect.height - 2 * o.strip.pad - rowH * 1.5) < 1.5 && o.strip.pad >= 3, { oh: o.rect.height, rowH, pad: o.strip.pad });
   check('overlay vertically centred on row', centred(o, s));
   check('overlay starts at grid left (includes row header)', Math.abs(o.rect.left - grid.left) < 1.5, o.rect.left);
   let col = await regionColor({ left: o.rect.left + o.rect.width - 300, top: o.rect.top + 4, width: 250, height: o.rect.height - 8 });
@@ -275,7 +301,7 @@ function check(name, cond, info) {
   await setSettings({ scale: 200, fillEnabled: false });
   await sleep(500);
   o = await overlayInfo(); s = await selRect();
-  check('scale change applies live (200%)', Math.abs(o.rect.height - (s.bottom - s.top) * 2) < 1.5, { oh: o.rect.height, rowH: s.bottom - s.top });
+  check('scale change applies live (200%)', Math.abs(o.rect.height - 2 * o.strip.pad - (s.bottom - s.top) * 2) < 1.5, { oh: o.rect.height, rowH: s.bottom - s.top });
   col = await regionColor({ left: o.rect.left + o.rect.width - 300, top: o.rect.top + 4, width: 250, height: o.rect.height - 8 });
   check('fill disabled -> white background', col.r > 240 && col.g > 240 && col.b > 240, col);
   await page.screenshot({ path: 'e2e_scale200_nofill.png' });
@@ -292,7 +318,7 @@ function check(name, cond, info) {
   await setSettings({ scale: 100 });
   await sleep(500);
   o = await overlayInfo(); s = await selRect();
-  check('scale 100% -> overlay exactly row height', Math.abs(o.rect.height - (s.bottom - s.top)) < 1.5, { oh: o.rect.height });
+  check('scale 100% -> overlay = row height + padding', Math.abs(o.rect.height - 2 * o.strip.pad - (s.bottom - s.top)) < 1.5, { oh: o.rect.height });
 
   // ---------- push mode: neighbouring rows stay visible, rows below move down
   await setSettings({ enabled: false }); await sleep(300);
@@ -306,9 +332,8 @@ function check(name, cond, info) {
   await setSettings({ enabled: true, pushRows: true, scale: 200, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
   await sleep(600);
   o = await overlayInfo(); s = await selRect();
-  const shift = RH * 2 - RH;
-  check('push: enlarged row grows down from its own top (row above untouched)', o.visible && o.strip.shift > 0 && Math.abs(o.strip.top - s.top) < 1.5 && Math.abs(o.strip.height - RH * 2) < 1.5, o.strip);
-  const close = (a, b) => Math.abs(a.r - b.r) < 6 && Math.abs(a.g - b.g) < 6 && Math.abs(a.b - b.b) < 6 && Math.abs(a.darkFrac - b.darkFrac) < 0.02;
+  const shift = o.strip.shift;
+  check('push: enlarged row grows down from its own top (row above untouched)', o.visible && o.strip.shift > 0 && Math.abs(o.strip.top - s.top) < 1.5 && Math.abs(o.strip.height - 2 * o.strip.pad - RH * 2) < 1.5 && Math.abs(shift - (RH + 2 * o.strip.pad)) < 1.5, o.strip);
   const row4After = await regionColor(strip(s.top - RH + 2, RH - 4));
   check('push: row above (4) looks exactly as before', close(row4Before, row4After), { row4Before, row4After });
   const row6After = await regionColor(strip(s.bottom + shift + 7, RH - 9));
@@ -341,8 +366,188 @@ function check(name, cond, info) {
   await clickRowHeader(5); await waitFrames();
   await setSettings({ pushRows: false }); await sleep(500);
   o = await overlayInfo(); s = await selRect();
-  check('push off: back to centred overlay of strip height', o.strip.shift === 0 && stripOk(o, s, 2) && Math.abs(o.rect.height - RH * 2) < 1.5, o.strip);
+  check('push off: back to centred overlay of strip height', o.strip.shift === 0 && stripOk(o, s, 2) && Math.abs(o.rect.height - 2 * o.strip.pad - RH * 2) < 1.5, o.strip);
   await setSettings({ scale: 150 }); await sleep(300);
+
+  // ---------- sharp text: the magnified row's text is redrawn as real text (not stretched pixels)
+  {
+    await setSettings({ scale: 200, pushRows: true, alignColumns: true, fillEnabled: false }); await sleep(300);
+    await clickRowHeader(5); await waitFrames(); await sleep(400);
+    let o = await overlayInfo();
+    check('sharp text: row text redrawn as vector text', o.strip.sharp >= 3, o.strip);
+    const textBox = { left: grid.left + 48, top: o.strip.top + o.strip.pad + 2, width: 110, height: o.strip.height - 2 * o.strip.pad - 4 };
+    const sharp = await crispness(textBox);
+
+    // Things the recorder can't see must never get damaged by the redraw. Paint onto Sheets'
+    // own canvas, the way Sheets would: (1) a rounded "chip" behind column A's text (a path
+    // fill the recorder doesn't follow); (2) a strikethrough line across column B's text.
+    const sel = await selRect();
+    await page.mouse.move(grid.left + 700, 20); // no hover effects on the grid
+    await sleep(1500); // let Sheets finish repainting the newly selected row first
+    // Sheets repaints the row now and then, so keep the drawing in place for the next few
+    // seconds (as Sheets itself would keep drawing a real chip).
+    const drawn = await page.evaluate((top, bottom) => {
+      const c = document.querySelector('#waffle-grid-container canvas');
+      const cr = c.getBoundingClientRect();
+      const kx = c.width / cr.width, ky = c.height / cr.height;
+      const x = c.getContext('2d');
+      const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+      const draw = () => {
+        x.save();
+        x.globalCompositeOperation = 'multiply';
+        x.fillStyle = '#7fd1a8';
+        x.beginPath();
+        x.roundRect(47 * kx, (top - cr.top + 2) * ky, 110 * kx, (bottom - top - 5) * ky, 8 * ky);
+        x.fill();
+        x.restore();
+        // strikethrough: a thin line in the text colour across the middle of column B's text
+        x.save();
+        x.beginPath(); x.moveTo(168 * kx, (top - cr.top + 11.5) * ky); x.lineTo(200 * kx, (top - cr.top + 11.5) * ky);
+        x.lineWidth = 1 * ky; x.strokeStyle = '#000000'; x.stroke();
+        x.restore();
+      };
+      const until = performance.now() + 8000;
+      const keep = () => {
+        probe.clearRect(0, 0, 1, 1);
+        probe.drawImage(c, 150 * kx, (top - cr.top + 10) * ky, 1, 1, 0, 0, 1, 1);
+        const d = probe.getImageData(0, 0, 1, 1).data;
+        if (!(d[1] > d[0] + 40)) draw(); // not green any more: Sheets repainted the row
+        if (performance.now() < until) requestAnimationFrame(keep);
+      };
+      draw();
+      requestAnimationFrame(keep);
+      return { kx, ky };
+    }, sel.top, sel.bottom);
+    // The row stays selected. A settings change makes the overlay re-check the row right away
+    // (otherwise it does so every few seconds, as for any change made in place).
+    await setSettings({ headerRow: 2 }); await sleep(700);
+    o = await overlayInfo();
+    // Column A sits on the chip: whether redrawn on the chip colour or kept as pixels, the chip
+    // must stay intact (green all round, no white box).
+    const chipCell = { left: grid.left + 70, top: o.strip.top + o.strip.pad + 8, width: 80, height: o.strip.height - 2 * o.strip.pad - 16 }; // inside the chip's rounded corners
+    const chipColor = await regionColor(chipCell);
+    const whiteInChip = await page.evaluate(async (b64) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const x = c.getContext('2d'); x.drawImage(img, 0, 0);
+      const d = x.getImageData(0, 0, c.width, c.height).data; let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (d[i] > 245 && d[i + 1] > 245 && d[i + 2] > 245) n++;
+      return n;
+    }, await page.screenshot({ encoding: 'base64', clip: { x: chipCell.left, y: chipCell.top, width: chipCell.width, height: chipCell.height } }));
+    check('sharp text: text on a chip is not damaged (chip colour kept, no white box)', chipColor.g > chipColor.r + 20 && whiteInChip === 0, { strip: o.strip, chipColor, whiteInChip, drawn });
+    // Column B: the strikethrough is kept (redrawn as a line) and the text stays sharp.
+    const strike = await regionColor({ left: grid.left + 172, top: o.strip.top + o.strip.pad + 22 * 2 - 23, width: 20, height: 3 });
+    check('sharp text: strikethrough line across text is preserved', strike.darkFrac > 0.3, { strike });
+    await page.screenshot({ path: 'e2e_chip_strike.png' });
+    await setSettings({ headerRow: 1 });
+    await page.reload({ waitUntil: 'networkidle2' }); await page.waitForSelector('#t-name-box'); await sleep(2500);
+    await clickRowHeader(5); await waitFrames(); await sleep(400);
+
+    // Switch the page-side recorder off: the overlay falls back to the stretched picture.
+    await page.evaluate(() => window.__sheetsRowFocusText.stop());
+    await clickRowHeader(6); await clickRowHeader(5); await waitFrames(); await sleep(400);
+    o = await overlayInfo();
+    const blurry = await crispness(textBox);
+    check('sharp text: fallback without recorder still shows the row (stretched)', o.visible && o.strip.sharp === 0 && blurry.ink > 50, { strip: o.strip, blurry });
+    check('sharp text: vector text is much crisper than stretched pixels', sharp.ink > 50 && sharp.solid > blurry.solid + 0.15, { sharp, blurry });
+    // A recorder that arrives after the sheet has drawn (extension installed into an open tab)
+    // must get Sheets to repaint before its record is trusted.
+    await page.evaluate(() => { delete window.__sheetsRowFocusText; });
+    await page.evaluate(require('fs').readFileSync(path.join(EXT, 'text-recorder.js'), 'utf8'));
+    await sleep(500);
+    await clickRowHeader(6); await clickRowHeader(5); await waitFrames(); await sleep(400);
+    o = await overlayInfo();
+    check('sharp text: recorder installed into an open sheet does not trust unseen pixels', o.visible && o.strip.sharp === 0, o.strip);
+    // Once Sheets repaints that part of the grid (here: scrolled away and back), it is sharp.
+    await page.mouse.move(grid.left + 500, grid.top + 300);
+    await page.mouse.wheel({ deltaY: 900 }); await sleep(500);
+    await page.mouse.wheel({ deltaY: -900 }); await sleep(500);
+    await clickRowHeader(6); await clickRowHeader(5); await waitFrames(); await sleep(400);
+    o = await overlayInfo();
+    check('sharp text: ...and becomes sharp once Sheets repaints those rows', o.strip.sharp >= 3, o.strip);
+    await page.reload({ waitUntil: 'networkidle2' }); await page.waitForSelector('#t-name-box'); await sleep(2500);
+    await setSettings({ scale: 150, fillEnabled: true }); await sleep(300);
+  }
+
+  // ---------- aligned columns + header row
+  await setSettings({ enabled: true, scale: 150, pushRows: true, alignColumns: true, showHeader: false, fillEnabled: true, fillColor: '#fff59d', fillOpacity: 60 });
+  await sleep(300);
+  await clickRowHeader(5); await waitFrames(); await sleep(300);
+  o = await overlayInfo(); s = await selRect();
+  {
+    const RH = s.bottom - s.top;
+    check('aligned: row drawn cell by cell', o.strip.aligned, o.strip);
+    // the gridline between A and B (x=166) stays at the same x inside the magnified row
+    const sepIn = await regionColor({ left: grid.left + 166, top: o.strip.top + 1, width: 1, height: o.strip.height - 2 }); // runs through the padding too
+    const cellIn = await regionColor({ left: grid.left + 162, top: o.strip.top + 1, width: 1, height: o.strip.height - 2 }); // blank end of column A
+    check('aligned: column separator stays at its real x (166) in the magnified row', sepIn.r < cellIn.r - 10, { sepIn, cellIn });
+    const padTop = await regionColor({ left: grid.left + 50, top: o.strip.top + 2, width: 1000, height: o.strip.pad - 2 }); // below the 2px outline
+    const padBottom = await regionColor({ left: grid.left + 50, top: o.strip.top + o.strip.height - o.strip.pad, width: 1000, height: o.strip.pad - 1 });
+    check('padding above/below the row is clean cell background (no text streaks)', o.strip.pad >= 3 && padTop.darkFrac === 0 && padBottom.darkFrac === 0 && padTop.r > 200, { padTop, padBottom });
+    const sepBelow = await regionColor({ left: grid.left + 166, top: o.strip.top + o.strip.height + 3, width: 1, height: RH - 6 });
+    check('aligned: separator lines up with the row below', sepBelow.r < 240, { sepIn, sepBelow });
+    await page.screenshot({ path: 'e2e_aligned.png' });
+    await page.mouse.click(grid.left + 300, o.strip.top + o.strip.height / 2);
+    await sleep(500);
+    v = await nameBox();
+    check('aligned: click in magnified column C selects C5', v === 'C5', v);
+  }
+
+  // header row (row 1, frozen in this sheet) shown above the focused row
+  await setSettings({ showHeader: true, headerRow: 1 }); await sleep(300);
+  await clickRowHeader(2); await waitFrames(); await sleep(300);
+  o = await overlayInfo();
+  check('header: not shown for the row right under the header (row 2)', o.visible && o.strip.header === 0, o.strip);
+  await page.mouse.click(grid.left + 300, grid.top + 400); await sleep(300);
+  await setSettings({ enabled: false }); await sleep(300);
+  await clickRowHeader(9); await sleep(300);
+  const s9 = await selRect();
+  const R9 = s9.bottom - s9.top;
+  const hRow8Before = await regionColor({ left: grid.left + 2, top: s9.top - R9 + 2, width: 1100, height: R9 - 4 });
+  const hRow10Before = await regionColor({ left: grid.left + 2, top: s9.bottom + 7, width: 1100, height: R9 - 9 });
+  await setSettings({ enabled: true }); await sleep(700);
+  o = await overlayInfo(); s = await selRect();
+  const hdrH1 = o.strip.header;
+  check('header: strip shown above row 9 (row 1 is 37px -> ~55px at 150%)', hdrH1 > 50 && hdrH1 < 60, o.strip);
+  check('header: block starts at the row top, row strip below the header', Math.abs(o.rect.top - s.top) < 1.5 && Math.abs(o.strip.top - (s.top + hdrH1)) < 1.5, { o: o.rect, strip: o.strip, s });
+  const hdrInk = await regionColor({ left: grid.left + 50, top: o.rect.top + 4, width: 700, height: hdrH1 - 8 });
+  check('header: column titles drawn (dark text in header strip)', hdrInk.darkFrac > 0.01, hdrInk);
+  const hRow8After = await regionColor({ left: grid.left + 2, top: s.top - R9 + 2, width: 1100, height: R9 - 4 });
+  check('header: row above (8) untouched', close(hRow8Before, hRow8After), { hRow8Before, hRow8After });
+  const pushBy = hdrH1 + o.strip.height - R9;
+  const hRow10After = await regionColor({ left: grid.left + 2, top: s.bottom + pushBy + 7, width: 1100, height: R9 - 9 });
+  check('header: row below (10) pushed down below header + row, intact', close(hRow10Before, hRow10After), { hRow10Before, hRow10After });
+  await page.screenshot({ path: 'e2e_header.png' });
+  await page.mouse.click(grid.left + 300, o.rect.top + hdrH1 / 2);
+  await sleep(500);
+  v = await nameBox();
+  check('header: click on header strip column C selects C9', v === 'C9', v);
+
+  // a header row that has scrolled off screen (row 2, not frozen) comes from the cache
+  await setSettings({ headerRow: 2 }); await sleep(300);
+  await page.mouse.move(grid.left + 500, grid.top + 300);
+  await page.mouse.wheel({ deltaY: -2000 }); await sleep(600);
+  await clickRowHeader(5); await waitFrames(); await sleep(400);
+  check('header (row 2): shown above row 5 while visible', (await overlayInfo()).strip.header > 25);
+  await page.mouse.click(grid.left + 300, grid.top + 400); await sleep(300);
+  await page.mouse.move(grid.left + 500, grid.top + 300);
+  await page.mouse.wheel({ deltaY: 21 * 12 }); await sleep(800);
+  const top2 = await page.evaluate(() => document.querySelector('.native-scrollbar-y').scrollTop);
+  v = await clickRowHeader(20); await waitFrames(); await sleep(400);
+  o = await overlayInfo();
+  const hdrInk2 = await regionColor({ left: grid.left + 50, top: o.rect.top + 4, width: 700, height: Math.max(4, o.strip.header - 8) });
+  check('header (row 2): still shown after scrolling it out of view (cached)', top2 > 0 && v === '20:20' && Math.abs(o.strip.header - 21 * 1.5) < 2 && hdrInk2.darkFrac > 0.01, { top2, v, strip: o.strip, hdrInk2 });
+  check('sharp text: every text of a row reached by scrolling is sharp (row number + 6 cells), header too', o.strip.sharp === 7 && o.strip.sharpHeader >= 6, o.strip);
+  await page.screenshot({ path: 'e2e_header_cached.png' });
+  await page.mouse.wheel({ deltaY: -2000 }); await sleep(600);
+
+  // toggles
+  await setSettings({ headerRow: 1, showHeader: false }); await sleep(300);
+  await clickRowHeader(9); await waitFrames(); await sleep(300);
+  check('header off: no header strip', (await overlayInfo()).strip.header === 0);
+  await setSettings({ alignColumns: false }); await sleep(400);
+  check('align off: row drawn as one picture again', !(await overlayInfo()).strip.aligned);
+  await setSettings({ alignColumns: false, showHeader: false, pushRows: false, scale: 150 }); await sleep(300);
 
   // ---------- disable
   await setSettings({ enabled: false });
@@ -392,6 +597,7 @@ function check(name, cond, info) {
   await popup.goto(`chrome-extension://${extId}/popup.html`);
   await sleep(500);
   const popupState = await popup.evaluate(() => ({ en: document.getElementById('enabled').checked, scale: document.getElementById('scale').value, fill: document.getElementById('fillEnabled').checked, color: document.getElementById('fillColor').value }));
+  check('popup shows the extension version', /^v\d+\.\d+\.\d+$/.test(await popup.$eval('#version', e => e.textContent)), await popup.$eval('#version', e => e.textContent));
   check('popup reflects stored settings', popupState.en && popupState.scale === '150' && popupState.fill && popupState.color === '#fff59d', popupState);
   await popup.screenshot({ path: 'e2e_popup.png', clip: { x: 0, y: 0, width: 290, height: 420 } });
   await popup.click('button[data-color="#a5d6a7"]');
@@ -407,13 +613,22 @@ function check(name, cond, info) {
   await popup.click('#fillEnabled');
   await sleep(300);
   check('popup fill toggle saves', (await getSettings()).fillEnabled === false);
+  const alignBefore = (await getSettings()).alignColumns;
+  await popup.click('#alignColumns'); await sleep(250);
+  check('popup align toggle saves', (await getSettings()).alignColumns === !alignBefore);
+  if ((await getSettings()).showHeader !== true) { await popup.click('#showHeader'); await sleep(250); }
+  await popup.click('#showHeader'); await sleep(250);
+  check('popup header toggle saves + disables row input', (await getSettings()).showHeader === false && await popup.$eval('#headerRow', e => e.disabled));
+  await popup.click('#showHeader'); await sleep(250);
+  await popup.$eval('#headerRow', e => { e.value = '3'; e.dispatchEvent(new Event('change')); }); await sleep(250);
+  check('popup header row number saves', (await getSettings()).headerRow === 3, (await getSettings()).headerRow);
   await popup.click('#enabled');
   await sleep(300);
   check('popup enable toggle saves + disables options', (await getSettings()).enabled === false && await popup.$eval('#options', e => e.disabled));
   await popup.click('#reset');
   await sleep(300);
   const reset = await getSettings();
-  check('popup reset restores defaults', reset.enabled === true && reset.scale === 150 && reset.pushRows === true && reset.fillEnabled === true && reset.fillColor === '#fff59d', reset);
+  check('popup reset restores defaults', reset.enabled === true && reset.scale === 120 && reset.pushRows === true && reset.alignColumns === false && reset.showHeader === true && reset.headerRow === 1 && reset.hiRes === undefined && reset.fillEnabled === false && reset.fillColor === '#fff59d', reset);
 
   await popup.$eval('#scale', e => { e.value = '250'; e.dispatchEvent(new Event('input')); e.dispatchEvent(new Event('change')); });
   await sleep(600);
@@ -442,6 +657,7 @@ function check(name, cond, info) {
   v = await clickRowHeader(6); await waitFrames();
   o = await overlayInfo(); s = await selRect();
   check('after extension reload: open tab works without page refresh', !!sw2 && stripOk(o, s, 2.5), { v, strip: o.strip });
+  check('after extension reload: text still sharp', o.strip.sharp >= 3, o.strip);
   await page.mouse.click(grid.left + 300, grid.top + 300); await sleep(400);
   check('after extension reload: cell click reverts', !(await overlayInfo()).visible);
 

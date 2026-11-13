@@ -36,6 +36,7 @@ header {
 }
 
 h1 { margin: 0; font-size: 14px; font-weight: 600; }
+.version { margin-left: auto; }
 
 main { padding: 6px 14px 12px; }
 
@@ -109,7 +110,19 @@ input[type="color"] {
 }
 .swatches button[aria-pressed="true"] { outline: 2px solid var(--fg); outline-offset: 1px; }
 
-#fillOptions.off { opacity: 0.45; pointer-events: none; }
+#headerOptions.off { opacity: 0.45; pointer-events: none; }
+#fillOptions.off { display: none; }
+
+input[type="number"] {
+  width: 72px;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  text-align: right;
+}
 
 .footer { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 2px; }
 

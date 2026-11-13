@@ -28,7 +28,11 @@ async function injectIntoOpenSheets() {
   for (const tab of tabs) {
     const target = { tabId: tab.id };
     chrome.scripting.insertCSS({ target, files: ["content.css"] }).catch(() => {});
-    chrome.scripting.executeScript({ target, files: ["settings.js", "content.js"] }).catch(() => {});
+    // The text recorder first (page world), so the content script finds it.
+    chrome.scripting.executeScript({ target, files: ["text-recorder.js"], world: "MAIN" })
+      .catch(() => {})
+      .then(() => chrome.scripting.executeScript({ target, files: ["settings.js", "content.js"] }))
+      .catch(() => {});
   }
 }
 

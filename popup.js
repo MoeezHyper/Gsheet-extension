@@ -8,6 +8,10 @@
     scale: $("scale"),
     scaleValue: $("scaleValue"),
     pushRows: $("pushRows"),
+    alignColumns: $("alignColumns"),
+    showHeader: $("showHeader"),
+    headerOptions: $("headerOptions"),
+    headerRow: $("headerRow"),
     fillEnabled: $("fillEnabled"),
     fillOptions: $("fillOptions"),
     fillColor: $("fillColor"),
@@ -23,6 +27,11 @@
     els.scale.value = s.scale;
     els.scaleValue.textContent = `${s.scale}%`;
     els.pushRows.checked = s.pushRows;
+    els.alignColumns.checked = s.alignColumns;
+    els.showHeader.checked = s.showHeader;
+    els.headerOptions.classList.toggle("off", !s.showHeader);
+    els.headerRow.disabled = !s.showHeader;
+    if (document.activeElement !== els.headerRow) els.headerRow.value = s.headerRow;
     els.fillEnabled.checked = s.fillEnabled;
     els.fillOptions.classList.toggle("off", !s.fillEnabled);
     els.fillColor.value = s.fillColor;
@@ -62,6 +71,18 @@
   els.enabled.addEventListener("change", () => update({ enabled: els.enabled.checked }));
   els.fillEnabled.addEventListener("change", () => update({ fillEnabled: els.fillEnabled.checked }));
   els.pushRows.addEventListener("change", () => update({ pushRows: els.pushRows.checked }));
+  els.alignColumns.addEventListener("change", () => update({ alignColumns: els.alignColumns.checked }));
+  try {
+    $("version").textContent = `v${chrome.runtime.getManifest().version}`;
+  } catch (_) {
+    /* not running as an extension page */
+  }
+  els.showHeader.addEventListener("change", () => update({ showHeader: els.showHeader.checked }));
+  els.headerRow.addEventListener("change", () => {
+    const n = Number(els.headerRow.value);
+    if (Number.isFinite(n) && n >= 1) update({ headerRow: n });
+    else els.headerRow.value = state.headerRow;
+  });
 
   throttledSave("scale", els.scale, (v) => (els.scaleValue.textContent = `${v}%`));
   throttledSave("fillOpacity", els.fillOpacity, (v) => (els.fillOpacityValue.textContent = `${v}%`));
