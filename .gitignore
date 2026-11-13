@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Test artifacts
+tests/output/
+
+# Packaged builds
+*.zip
+*.crx
+*.pem
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
